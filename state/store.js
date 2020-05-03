@@ -202,7 +202,7 @@ export async function stateFactory(entityId, token) {
 }
 
 export async function fetch(state) {
-	if (state.hasServerResponseCached()) {
+	if (!state || state.hasServerResponseCached()) {
 		return;
 	}
 	await state.refreshToken();

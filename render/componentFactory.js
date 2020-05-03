@@ -2,41 +2,93 @@
 
 const defaultType = null;
 
+// TODO: Organize the component tags better!
 class ComponentStore {
-	constructor() {
+	constructor(elementPseudoTag) {
+		this._elementPseudoTag = elementPseudoTag;
 		this._componentStore = new Map();
 	}
 
-	register(type, component) {
-		this._componentStore.set(type, component);
+	register(componentTag, types) {
+		if (!types) {
+			this._componentStore.set(defaultType, componentTag);
+		}
+		types = typeof types === 'Array' ? types : [types];
+		types.forEach(type => {
+			types = typeof type === 'Array' ? type : [type];
+			let componentStore = this._componentStore;
+			do {
+				const typeValue = type.shift();
+				componentStore = this._getNextMap(componentStore, typeValue);
+			} while(type.length > 0);
+			if (componentStore.has(defaultType)) {
+				throw new Error(`Duplicate Hypermedia Class Type for element ${this._elementPseudoTag} with tag ${componentTag} and ${componentStore.get(defaultType)}`);
+			}
+			componentStore.set(defaultType, componentTag);
+		});
 	}
 
-	registerDefault(component) {
-		this._componentStore.set(defaultType, component);
-	}
-
-	component(types) {
+	componentTag(types) {
 		if (!types) return;
-		types = typeof types === 'String' ? [types] : types;
+		types = typeof types === 'Array' ? types : [types];
 
+		const componentTags = [];
 		for(const typeIndex in types) {
 			const type = types[typeIndex];
-			if (this._componentStore.has(type)) {
-				return this._componentStore.get(type);
-			}
+			componentTags.push(this._getComponentTag(type, types.filter(otherType => otherType !== type)));
 		}
-		return this._componentStore.has(defaultType) ? this._componentStore.get(defaultType) : null;
+
+		const componentTag = this._reduceComponentTag(componentTags);
+		return componentTag.componentTag;
+	}
+
+	_getComponentTag(type, otherTypes, map, depth = 0) {
+		map = map ? map : this._componentStore;
+		if (!map.has(type)) {
+			return { componentTag: map.has(defaultType) ? map.get(defaultType) : null, depth };
+		}
+		map = map.get(type);
+		if (!map) {
+			return null;
+		}
+		const componentTags = [];
+		for(const typeIndex in otherTypes) {
+			const type = types[typeIndex];
+			componentTags.push(this._getComponentTag(otherType, otherTypes.filter(otherType => otherType !== type), map, depth+1));
+
+		}
+
+		return this._reduceComponentTag(componentTags);
+	}
+
+	_reduceComponentTag(componentTags) {
+		let componentTagWithMaxDepth = { componentTag: null, depth: 0 };
+		componentTags.forEach(componentTag => {
+			if (!componentTag || !componentTag.componentTag || componentTag.depth < componentTagWithMaxDepth.depth) return;
+
+			componentTagWithMaxDepth = componentTag;
+		});
+
+		return componentTag;
+	}
+
+	_getNextMap(map, key) {
+		if (map.has(key)) {
+			return map.get(key);
+		}
+
+		return new Map();
 	}
 }
 
 window.D2L = window.D2L || {};
 window.D2L.ComponentStore = window.D2L.ComponentStore || new Map();
 
-export function componentStoreFactory(classFunction) {
-	if (window.D2L.ComponentStore.has(classFunction)) {
-		return window.D2L.ComponentStore.get(classFunction);
+export function componentStoreFactory(elementPseudoTag) {
+	if (window.D2L.ComponentStore.has(elementPseudoTag)) {
+		return window.D2L.ComponentStore.get(elementPseudoTag);
 	}
-	const componentStore = new ComponentStore();
-	window.D2L.ComponentStore.set(classFunction, componentStore);
+	const componentStore = new ComponentStore(elementPseudoTag);
+	window.D2L.ComponentStore.set(elementPseudoTag, componentStore);
 	return componentStore;
 }

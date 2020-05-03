@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement } from '../../../framework/hypermedia-component.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import '../../common/d2l-hm-description.js'
 
@@ -25,4 +26,5 @@ class ActivityDescriptionLearningPath extends HypermediaLitMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-activity-description-learning-path', ActivityDescriptionLearningPath);
+
+customHypermediaElement('d2l-activity-description-learning-path', ActivityDescriptionLearningPath, 'd2l-activity-description', [['activity-usage', 'learning-path']]);

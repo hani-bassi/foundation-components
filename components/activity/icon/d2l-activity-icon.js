@@ -12,18 +12,9 @@ class ActivityIcon extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
 
 	static get components() {
 		return {
-			learningPaths: {
-				type: 'learning-path',
-				component: () => html`<d2l-icon icon="tier1:exemption-add"></d2l-icon>`
-			},
-			course: {
-				type: 'course-offering',
-				component: () => html`<d2l-icon icon="tier1:course"></d2l-icon>`
-			},
-			default: {
-				component: () => html`<d2l-icon icon="tier1:quizing"></d2l-icon>`,
-				default: true
-			}
+			'learning-path': html`<d2l-icon icon="tier1:exemption-add"></d2l-icon>`,
+			'course-offering': html`<d2l-icon icon="tier1:course"></d2l-icon>`,
+			default: html`<d2l-icon icon="tier1:quizing"></d2l-icon>`
 		};
 	}
 
@@ -33,8 +24,14 @@ class ActivityIcon extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
 	}
 
 	render() {
+		let icon = ActivityIcon.components.default;
+		this.classes.some(hmClass => {
+			if (!ActivityIcon.components[hmClass]) return;
+			icon = ActivityIcon.components[hmClass];
+			return true;
+		})
 		return html`
-			${this._renderComponent(this.classes)}
+			${icon}
 		`;
 	}
 }

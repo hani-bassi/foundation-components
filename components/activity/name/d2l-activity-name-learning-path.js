@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
-import { customHypermediaElement } from '../../../framework/hypermedia-component.js';
+import { customHypermediaElement } from '../../../framework/hypermedia-components.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import '../../common/d2l-hm-name.js'
 
@@ -27,4 +27,4 @@ class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 
 }
 
-customHypermediaElement('d2l-activity-name-learning-path', ActivityNameLearningPath, 'd2l-activity-name', [['activity-usage', 'learning-paths']]);
+customHypermediaElement('d2l-activity-name-learning-path', ActivityNameLearningPath, 'd2l-activity-name', [['activity-usage', 'learning-path']]);

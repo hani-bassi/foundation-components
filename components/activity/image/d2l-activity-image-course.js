@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement } from '../../../framework/hypermedia-component.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import '../../common/d2l-hm-course-image.js'
 
@@ -25,4 +26,5 @@ class ActivityImageCourse extends HypermediaLitMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-activity-image-course', ActivityImageCourse);
+
+customHypermediaElement('d2l-activity-image-course', ActivityImageCourse, 'd2l-activity-name', [['activity-usage', 'course-offering']]);

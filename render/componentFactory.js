@@ -13,9 +13,9 @@ class ComponentStore {
 		if (!types) {
 			this._componentStore.set(defaultType, componentTag);
 		}
-		types = typeof types === 'Array' ? types : [types];
+		types = typeof types === 'object' ? types : [types];
 		types.forEach(type => {
-			types = typeof type === 'Array' ? type : [type];
+			type = typeof type === 'object' ? type : [type];
 			let componentStore = this._componentStore;
 			do {
 				const typeValue = type.shift();
@@ -30,14 +30,13 @@ class ComponentStore {
 
 	componentTag(types) {
 		if (!types) return;
-		types = typeof types === 'Array' ? types : [types];
+		types = typeof types === 'object' ? types : [types];
 
 		const componentTags = [];
 		for(const typeIndex in types) {
 			const type = types[typeIndex];
 			componentTags.push(this._getComponentTag(type, types.filter(otherType => otherType !== type)));
 		}
-
 		const componentTag = this._reduceComponentTag(componentTags);
 		return componentTag.componentTag;
 	}
@@ -53,8 +52,8 @@ class ComponentStore {
 		}
 		const componentTags = [];
 		for(const typeIndex in otherTypes) {
-			const type = types[typeIndex];
-			componentTags.push(this._getComponentTag(otherType, otherTypes.filter(otherType => otherType !== type), map, depth+1));
+			const type = otherTypes[typeIndex];
+			componentTags.push(this._getComponentTag(type, otherTypes.filter(otherType => otherType !== type), map, depth+1));
 
 		}
 
@@ -69,15 +68,16 @@ class ComponentStore {
 			componentTagWithMaxDepth = componentTag;
 		});
 
-		return componentTag;
+		return componentTagWithMaxDepth;
 	}
 
 	_getNextMap(map, key) {
 		if (map.has(key)) {
 			return map.get(key);
 		}
-
-		return new Map();
+		const newMap = new Map();
+		map.set(key, newMap);
+		return newMap;
 	}
 }
 

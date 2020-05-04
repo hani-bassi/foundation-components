@@ -84,6 +84,10 @@ class ComponentStore {
 window.D2L = window.D2L || {};
 window.D2L.ComponentStore = window.D2L.ComponentStore || new Map();
 
+export function isPseudoTag(elementPseudoTag) {
+	return window.D2L.ComponentStore.has(elementPseudoTag);
+}
+
 export function componentStoreFactory(elementPseudoTag) {
 	if (window.D2L.ComponentStore.has(elementPseudoTag)) {
 		return window.D2L.ComponentStore.get(elementPseudoTag);

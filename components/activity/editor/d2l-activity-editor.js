@@ -1,7 +1,8 @@
-import { html, LitElement } from 'lit-element/lit-element.js';
-import { renderHypermediaComponent } from '../../../framework/hypermedia-components.js';
+import { LitElement } from 'lit-element/lit-element.js';
+import { html } from '../../../framework/hypermedia-components.js';
 import '../name/d2l-activity-name.js';
-
+import '../description/d2l-activity-description.js';
+import '../type/d2l-activity-type.js';
 
 class ActivityEditor extends LitElement {
 	static get properties() {
@@ -16,7 +17,11 @@ class ActivityEditor extends LitElement {
 
 	render() {
 		return html`
-			${renderHypermediaComponent('d2l-activity-name', this.href, this.token)}
+			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>
+			<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>
 		`;
 	}
 }

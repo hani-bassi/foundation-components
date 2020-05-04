@@ -27,4 +27,8 @@ class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 
 }
 
-customHypermediaElement('d2l-activity-name-learning-path', ActivityNameLearningPath, 'd2l-activity-name', [['activity-usage', 'learning-path']]);
+customHypermediaElement(
+	'd2l-activity-name-learning-path',
+	ActivityNameLearningPath,
+	'd2l-activity-name',
+	[['activity-usage', 'learning-path']]);

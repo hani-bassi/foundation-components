@@ -1,34 +1,27 @@
-import { html, LitElement } from 'lit-element/lit-element.js';
-import './d2l-activity-editor-learning-path.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
-import { ParentLitMixin } from '../../../framework/parent-lit-mixin.js';
+import { LitElement } from 'lit-element/lit-element.js';
+import { html } from '../../../framework/hypermedia-components.js';
+import '../name/d2l-activity-name.js';
+import '../description/d2l-activity-description.js';
+import '../type/d2l-activity-type.js';
 
-
-class ActivityEditor extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
+class ActivityEditor extends LitElement {
 	static get properties() {
 		return {
-			classes: { type: Array, observable: observableTypes.classes }
+			href: { type: String, reflect: true },
+			token: { type: String }
 		};
 	}
-
-	static get components() {
-		return {
-			learningPaths: {
-				type: 'learning-path',
-				component: ({href, token}) => html`<d2l-activity-editor-learning-path href="${href}" .token="${token}"></d2l-activity-editor-learning-path>`,
-				default: true
-			}
-		};
-	}
-
 	constructor() {
 		super();
-		this.classes = [];
 	}
 
 	render() {
 		return html`
-			${this._renderComponent(this.classes, {href: this.href, token: this.token})}
+			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>
+			<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>
 		`;
 	}
 }

@@ -2,37 +2,35 @@ import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import '@brightspace-ui/core/components/list/list-item-content.js';
-import './d2l-activity-item-course.js'
-import { ParentLitMixin } from '../../../framework/parent-lit-mixin.js';
+import { ifDefined } from 'lit-html/directives/if-defined';
+import '../name/d2l-activity-name.js'
+import '../type/d2l-activity-type.js'
+import '../image/d2l-activity-image.js'
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
 });
 
-class ActivityItem extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
+class ActivityItem extends HypermediaLitMixin(LitElement) {
 	static get properties() {
 		return {
-			classes: { type: Array, observable: observableTypes.classes, route: [{observable: observableTypes.link, rel: rels.activityUsage}]}
+			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
 		};
 	}
 
-	static get components() {
-		return {
-			course: {
-				type: 'course-offering',
-				component: ({href, token}) => html`<d2l-activity-item-course href="${href}" .token="${token}"></d2l-activity-item-course>`
-			}
-		};
-	}
-
-	constructor() {
-		super();
-		this.classes = [];
+	static get styles() {
+		return [ css`` ];
 	}
 
 	render() {
 		return html`
-			${this._renderComponent(this.classes, {href: this.href, token: this.token})}
+			<d2l-list-item>
+				<d2l-activity-image slot="illustration" href="${ifDefined(this._activityHref)}" .token="${this.token}"></d2l-activity-image>
+				<d2l-list-item-content> <!-- This would actually be unique to the type -->
+					<d2l-activity-name href="${ifDefined(this._activityHref)}" .token="${this.token}"></d2l-activity-name>
+					<d2l-activity-type href="${ifDefined(this._activityHref)}" .token="${this.token}" slot="secondary"></d2l-activity-type>
+				</d2l-list-item-content>
+			</d2l-list-item>
 		`;
 	}
 }

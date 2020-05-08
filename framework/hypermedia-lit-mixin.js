@@ -1,7 +1,5 @@
 import { dispose, fetch, stateFactory } from '../state/store.js';
-import { observableTypes as observableTypeExport } from '../state/HypermediaState.js';
-
-export const observableTypes = observableTypeExport;
+export { observableTypes } from '../state/HypermediaState.js';
 
 /**
  * @export

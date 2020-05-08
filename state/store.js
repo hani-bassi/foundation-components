@@ -53,11 +53,17 @@ class StateStore {
 
 	async fetch(state, bypassCache) {
 		// TODO: Add better fetch control. Canceling, pending states and so on.
-		if (!state || !state.entityId || !state.token.toString || (state.entity && !bypassCache) || this._fetchStatus.has(state)) {
+		if (!state || !state.entityId || !state.token.toString || (state.entity && !bypassCache)) {
 			return;
 		}
 
-		this._fetchStatus.set(state, true);
+		if (this._fetchStatus.has(state)) {
+			return this._fetchStatus.get(state);
+		}
+
+		let resolver;
+		const promise = new Promise(resolve => resolver = resolve);
+		this._fetchStatus.set(state, promise);
 
 		const headers = new Headers();
 		!state.token.cookie && headers.set('Authorization', 'Bearer ' + state.token.value);
@@ -85,6 +91,7 @@ class StateStore {
 		} catch (err) {
 			state.onServerResponse(null, err);
 		} finally {
+			resolver();
 			this._fetchStatus.delete(state);
 		}
 	}
@@ -202,8 +209,8 @@ export async function stateFactory(entityId, token) {
 }
 
 export async function fetch(state) {
-	if (state.hasServerResponseCached()) {
-		return;
+	if (!state || state.hasServerResponseCached()) {
+		return true;
 	}
 	await state.refreshToken();
 	return window.D2L.SirenSdk.StateStore.fetch(state);

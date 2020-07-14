@@ -28,7 +28,7 @@ class ActivityItem extends HypermediaLitMixin(LitElement) {
 				<d2l-activity-image slot="illustration" href="${ifDefined(this._activityHref)}" .token="${this.token}"></d2l-activity-image>
 				<d2l-list-item-content> <!-- This would actually be unique to the type -->
 					<d2l-activity-name href="${ifDefined(this._activityHref)}" .token="${this.token}"></d2l-activity-name>
-					<d2l-activity-type href="${ifDefined(this._activityHref)}" .token="${this.token}" slot="secondary"></d2l-activity-type>
+					<d2l-activity-type href="${ifDefined(this._activityHref)}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>
 				</d2l-list-item-content>
 			</d2l-list-item>
 		`;

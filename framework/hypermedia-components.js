@@ -18,6 +18,7 @@ export function html(strings, ...values) {
 	let currentCollection = stringCollections[0];
 	for (let i = 0; i < strings.length; i++) {
 		let currentString = strings[i];
+		// todo: Check that this logic is working
 		const currentValue = values[i];
 		let currentStringPosition = 0;
 		// eslint-disable-next-line no-useless-escape

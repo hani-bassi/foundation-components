@@ -1,6 +1,5 @@
-'use strict';
-import { refreshToken } from './token.js';
 import { dispose, fetch, stateFactory } from '../state/store.js';
+import { refreshToken } from './token.js';
 
 export const observableTypes = Object.freeze({
 	property: 1,
@@ -123,7 +122,7 @@ export class HypermediaState {
 	}
 
 	_refreshProperties() {
-		this._properties.forEach( (map, property) => {
+		this._properties.forEach((map, property) => {
 			const value = this._getPropertyValue(property);
 			map.forEach((method, component) => {
 				method = typeof method === 'function' ? method : (value) => value;
@@ -137,7 +136,6 @@ export class HypermediaState {
 		method = typeof method === 'function' ? method : (value) => value;
 		component[property] = method(value);
 	}
-
 
 	// Links
 	addLink(component, property, rel) {
@@ -157,7 +155,7 @@ export class HypermediaState {
 	_refreshLinks() {
 		this._links.forEach((map, rel) => {
 			map.forEach((property, component) => {
-				this._setLink(component, property, rel)
+				this._setLink(component, property, rel);
 			});
 		});
 	}
@@ -185,7 +183,7 @@ export class HypermediaState {
 	_refreshClasses() {
 		this._classes.forEach((map, name) => {
 			map.forEach((_, component) => {
-				this._setClasses(component, name)
+				this._setClasses(component, name);
 			});
 		});
 	}
@@ -213,7 +211,7 @@ export class HypermediaState {
 	_refreshSubEntities() {
 		this._subEntities.forEach((map, rel) => {
 			map.forEach((property, component) => {
-				this._setSubEntities(component, property, rel)
+				this._setSubEntities(component, property, rel);
 			});
 		});
 	}
@@ -300,7 +298,7 @@ export class HypermediaState {
 	}
 
 	_refreshEntity() {
-		this._sendEntityTo.forEach( (map, component) => {
+		this._sendEntityTo.forEach((map, component) => {
 			map.forEach((method, name) => {
 				this._setEntity(component, name, method);
 			});

@@ -1,8 +1,8 @@
-import { LitElement } from 'lit-element/lit-element.js';
-import { html } from '../../../framework/hypermedia-components.js';
 import '../name/d2l-activity-name.js';
 import '../description/d2l-activity-description.js';
 import '../type/d2l-activity-type.js';
+import { html } from '../../../framework/hypermedia-components.js';
+import { LitElement } from 'lit-element/lit-element.js';
 
 class ActivityEditor extends LitElement {
 	static get properties() {
@@ -10,9 +10,6 @@ class ActivityEditor extends LitElement {
 			href: { type: String, reflect: true },
 			token: { type: String }
 		};
-	}
-	constructor() {
-		super();
 	}
 
 	render() {

@@ -1,8 +1,7 @@
-'use strict';
 import 'd2l-fetch/d2l-fetch.js';
-import SirenParse from 'siren-parser';
 import { getToken } from './token.js';
 import { HypermediaState } from './HypermediaState.js';
+import SirenParse from 'siren-parser';
 
 class StateStore {
 	constructor(fetch) {
@@ -66,11 +65,11 @@ class StateStore {
 		this._fetchStatus.set(state, promise);
 
 		const headers = new Headers();
-		!state.token.cookie && headers.set('Authorization', 'Bearer ' + state.token.value);
+		!state.token.cookie && headers.set('Authorization', `Bearer ${state.token.value}`);
 
 		const fetch = !state.token.cookie
-					? this._d2lfetch
-					: this._d2lfetch.removeTemp('auth');
+			? this._d2lfetch
+			: this._d2lfetch.removeTemp('auth');
 
 		if (bypassCache) {
 			headers.set('pragma', 'no-cache');
@@ -116,7 +115,7 @@ class StateStore {
 		}
 
 		const cachePrimers = this._parseLinkHeader(linkHeaderValues)
-			.filter(function(link) {
+			.filter((link) => {
 				return link.rel.indexOf('https://api.brightspace.com/rels/cache-primer') !== -1;
 			});
 

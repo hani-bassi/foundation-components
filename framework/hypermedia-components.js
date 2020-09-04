@@ -1,8 +1,8 @@
-import { html as litHtml, TemplateResult, defaultTemplateProcessor } from 'lit-html';
-import { until } from 'lit-html/directives/until.js';
-import { dispose, fetch, stateFactory } from '../state/store.js';
-import { observableTypes } from '../state/HypermediaState.js';
 import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.js';
+import { defaultTemplateProcessor, html as litHtml, TemplateResult } from 'lit-html';
+import { fetch, stateFactory } from '../state/store.js';
+import { observableTypes } from '../state/HypermediaState.js';
+import { until } from 'lit-html/directives/until.js';
 
 export function customHypermediaElement(tag, elementClass, pseudoTag, hypermediaClasses, options) {
 	const components = componentStoreFactory(pseudoTag);
@@ -11,15 +11,16 @@ export function customHypermediaElement(tag, elementClass, pseudoTag, hypermedia
 }
 
 export function html(strings, ...values) {
-	console.log([strings,values]);
+	console.log([strings, values]);
 	const stringCollections = [{strings: [], values: []}];
 	strings = [...strings];
 	const tagStack = [];
 	let currentCollection = stringCollections[0];
-	for(let i = 0; i < strings.length; i++) {
+	for (let i = 0; i < strings.length; i++) {
 		let currentString = strings[i];
-		let currentValue = values[i];
+		const currentValue = values[i];
 		let currentStringPosition = 0;
+		// eslint-disable-next-line no-useless-escape
 		const outputs = [...strings[i].matchAll(/\<([A-Za-z][A-Za-z0-9\-]*)|\<\/([A-Za-z][A-Za-z0-9\-]*)\>/g)];
 		outputs.forEach(output => {
 			if (output[1] && isPseudoTag(output[1])) {
@@ -32,7 +33,7 @@ export function html(strings, ...values) {
 					currentStringPosition = output.index;
 				}
 			}
-			if (output[2] && output[2] === tagStack[tagStack.length-1]) {
+			if (output[2] && output[2] === tagStack[tagStack.length - 1]) {
 				tagStack.pop();
 				if (tagStack.length === 0) {
 					currentCollection.strings.push(currentString.substring(0, output.index + output[0].length - currentStringPosition));
@@ -56,7 +57,7 @@ function renderHypermediaComponent(pseudoTag, strings, values) {
 	const observable = {
 		classes: { type: Array, observable: observableTypes.classes }
 	};
-	const resources = { classes: [] }
+	const resources = { classes: [] };
 	const components = componentStoreFactory(pseudoTag);
 	if (!href || !token) return litHtml`loading`;
 	const statePromise = stateFactory(href, token);
@@ -79,7 +80,7 @@ function getHrefToken(strings, values) {
 			href = values[index];
 		}
 	});
-	return [href, token]
+	return [href, token];
 }
 
 function render(state, components, resources, pseudoTag, strings, values) {
@@ -87,8 +88,8 @@ function render(state, components, resources, pseudoTag, strings, values) {
 	if (!tag) return null;
 
 	const mainStrings = [], mainValues = [];
-	while(strings.length > 0) {
-		let string = strings.shift()
+	while (strings.length > 0) {
+		let string = strings.shift();
 		if (!string) break;
 		string = string.replace(pseudoTag, tag);
 		const indexOfEndTag = string.indexOf('>');
@@ -99,7 +100,7 @@ function render(state, components, resources, pseudoTag, strings, values) {
 		}
 
 		const subStringValue = string.substring(indexOfEndTag);
-		string = string.substring(0, indexOfEndTag+1);
+		string = string.substring(0, indexOfEndTag + 1);
 		mainStrings.push(string);
 		strings.unshift(subStringValue);
 		break;
@@ -111,7 +112,6 @@ function render(state, components, resources, pseudoTag, strings, values) {
 	} else {
 		mainStrings[mainStrings.length - 1] += `</${tag}>`;
 	}
-
 
 	//dispose(state);
 	return new TemplateResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);

@@ -1,5 +1,3 @@
-'use strict';
-
 export async function getToken(token) {
 	const tokenValue = await ((typeof (token) === 'function')
 		? token()
@@ -68,8 +66,8 @@ class Token {
 
 		const volatileClaims = ['exp', 'iat', 'jti', 'nbf'];
 		const normalizedClaims = Object.keys(decoded)
-			.filter(function(val) { return volatileClaims.indexOf(val) === -1; })
-			.reduce(function(result, key) {
+			.filter((val) => volatileClaims.indexOf(val) === -1)
+			.reduce((result, key) => {
 				result[key] = decoded[key];
 				return result;
 			}, {});

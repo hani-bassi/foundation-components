@@ -1,5 +1,3 @@
-'use strict';
-
 const defaultType = null;
 
 // TODO: Organize the component tags better!
@@ -20,7 +18,7 @@ class ComponentStore {
 			do {
 				const typeValue = type.shift();
 				componentStore = this._getNextMap(componentStore, typeValue);
-			} while(type.length > 0);
+			} while (type.length > 0);
 			if (componentStore.has(defaultType)) {
 				throw new Error(`Duplicate Hypermedia Class Type for element ${this._elementPseudoTag} with tag ${componentTag} and ${componentStore.get(defaultType)}`);
 			}
@@ -33,7 +31,7 @@ class ComponentStore {
 		types = typeof types === 'object' ? types : [types];
 
 		const componentTags = [];
-		for(const typeIndex in types) {
+		for (const typeIndex in types) {
 			const type = types[typeIndex];
 			componentTags.push(this._getComponentTag(type, types.filter(otherType => otherType !== type)));
 		}
@@ -51,9 +49,9 @@ class ComponentStore {
 			return null;
 		}
 		const componentTags = [];
-		for(const typeIndex in otherTypes) {
+		for (const typeIndex in otherTypes) {
 			const type = otherTypes[typeIndex];
-			componentTags.push(this._getComponentTag(type, otherTypes.filter(otherType => otherType !== type), map, depth+1));
+			componentTags.push(this._getComponentTag(type, otherTypes.filter(otherType => otherType !== type), map, depth + 1));
 
 		}
 

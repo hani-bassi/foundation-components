@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
 
-
 class ActivityType extends HypermediaLitMixin(LitElement) {
 	static get properties() {
 		return {
@@ -28,7 +27,7 @@ class ActivityType extends HypermediaLitMixin(LitElement) {
 			if (!ActivityType.components[hmClass]) return;
 			type = ActivityType.components[hmClass];
 			return true;
-		})
+		});
 		return html`
 			${type}
 		`;

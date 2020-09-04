@@ -1,8 +1,8 @@
+import '@brightspace-ui/core/components/list/list.js';
+import '../../activity/item/d2l-activity-item.js';
+import '../../common/d2l-hm-description.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes} from '../../../framework/hypermedia-lit-mixin.js';
-import '@brightspace-ui/core/components/list/list.js';
-import '../../activity/item/d2l-activity-item.js'
-import '../../common/d2l-hm-description.js'
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization',

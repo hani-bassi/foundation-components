@@ -1,7 +1,7 @@
+import '@brightspace-ui/core/components/icons/icon.js';
 import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
 import { ParentLitMixin } from '../../../framework/parent-lit-mixin.js';
-import '@brightspace-ui/core/components/icons/icon.js';
 
 class ActivityIcon extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
 	static get properties() {
@@ -29,7 +29,7 @@ class ActivityIcon extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
 			if (!ActivityIcon.components[hmClass]) return;
 			icon = ActivityIcon.components[hmClass];
 			return true;
-		})
+		});
 		return html`
 			${icon}
 		`;

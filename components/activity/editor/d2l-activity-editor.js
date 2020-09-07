@@ -1,24 +1,69 @@
+import '@brightspace-ui/core/templates/primary-secondary/primary-secondary.js';
 import '../name/d2l-activity-name.js';
 import '../description/d2l-activity-description.js';
 import '../type/d2l-activity-type.js';
+import './d2l-activity-editor-footer.js';
+import './d2l-activity-editor-header.js';
+import './d2l-activity-editor-main.js';
+import './d2l-activity-editor-sidebar.js';
 import { html } from '../../../framework/hypermedia-components.js';
-import { LitElement } from 'lit-element/lit-element.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 
 class ActivityEditor extends LitElement {
 	static get properties() {
 		return {
 			href: { type: String, reflect: true },
+			subTitle: { type: String, attribute: 'sub-title', reflect: true },
+			template: { type: String },
 			token: { type: String }
 		};
 	}
 
+	static get styles() {
+		return [css`
+			:host {
+				display: block;
+			}
+
+		`];
+	}
+
+	constructor() {
+		super();
+		this.template = 'default';
+	}
+
 	render() {
+		const templates = {
+			'default': () => this._renderDefault(),
+			'primary-secondary': () => this._renderPrimarySecondary()
+		};
+
+		if (!Object.keys(templates).includes(this.template)) {
+			console.error(`Template "${this.template}" does not exist in d2l-activity-editor`);
+			return null;
+		}
+
+		return templates[this.template]();
+	}
+
+	_renderDefault() {
 		return html`
-			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
-			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
-			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
-			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>
-			<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>
+			<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+			<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
+			<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+		`;
+	}
+
+	_renderPrimarySecondary() {
+		return html`
+			<d2l-template-primary-secondary>
+				<slot name="editor-nav" slot="header"></slot>
+				<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
+				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-sidebar>
+				<d2l-activity-editor-footer slot="footer" href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+			</d2l-template-primary-secondary>
 		`;
 	}
 }

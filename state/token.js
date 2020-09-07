@@ -56,6 +56,8 @@ class Token {
 			return TOKEN_COOKIE_CACHE_KEY;
 		}
 
+		console.log('token', token);
+
 		const tokenParts = token.split('.');
 
 		if (tokenParts.length < 3) {

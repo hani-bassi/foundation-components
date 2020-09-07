@@ -3,11 +3,10 @@ import { Component } from './Common.js';
 import { shouldAttachToken } from '../token.js';
 
 export class SirenSubEntity {
-	constructor({rel, token, sirenEntity = null}) {
-		this._rel = rel;
+	constructor({id, token}) {
+		this._rel = id;
 		this._components = new Component();
 		this._token = token;
-		sirenEntity && this._setSubEntity(sirenEntity);
 	}
 
 	get rel() {

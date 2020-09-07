@@ -1,12 +1,13 @@
 import { Component } from './Common.js';
 
 export class SirenProperty {
-	static basicInfo({property, type}) {
-		return { id: property, type };
+	static basicInfo({id, name, observable}) {
+		id = id || name.replace(/^_+/, '')
+		return { id, type: observable };
 	}
 
-	constructor({property}) {
-		this._property = property;
+	constructor({id}) {
+		this._property = id;
 		this._components = new Component();
 	}
 
@@ -27,6 +28,7 @@ export class SirenProperty {
 	}
 
 	addComponent(component, property) {
+		console.log(['prop1', property, this.value]);
 		this._components.add(component, property);
 		this._components.setComponentProperty(component, this.value);
 	}
@@ -36,6 +38,8 @@ export class SirenProperty {
 	}
 
 	setSirenEntity(sirenEntity) {
-		this.value = sirenEntity && sirenEntity.properties && sirenEntity.properties[this._property];
+		console.log(['prop2', this.property, sirenEntity]);
+		this.value = sirenEntity && sirenEntity.properties && sirenEntity.properties[this.property];
+		console.log(this.value);
 	}
 }

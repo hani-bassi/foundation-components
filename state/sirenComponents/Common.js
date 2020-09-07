@@ -15,7 +15,7 @@ export class Component {
 	}
 
 	setProperty(value) {
-		this._components.forEach((component, property) => {
+		this._components.forEach((property, component) => {
 			component[property] = value;
 		});
 	}

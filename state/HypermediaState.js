@@ -33,12 +33,9 @@ export class HypermediaState {
 	addObservables(component, observables) {
 		Object.keys(observables).forEach((name) => {
 			const propertyInfo = observables[name];
-			let { id, type } = sirenComponentBasicInfo(propertyInfo);
-			id = id || id.replace(/^_+/, name);
+			propertyInfo.name = name;
 
-			const typeMap = this._getMap(this._decodedEntity, type);
-
-			const sirenComponent = this._getSirenComponent(typeMap, id);
+			const sirenComponent = this._getSirenComponent(propertyInfo);
 			sirenComponent.addComponent(component, name);
 		});
 	}
@@ -82,11 +79,14 @@ export class HypermediaState {
 		return map.get(identifier);
 	}
 
-	_getSirenComponent(typeMap, id) {
-		if (typeMap.has(id)) return typeMap.get(id);
+	_getSirenComponent(propertyInfo) {
+		const basicInfo = sirenComponentBasicInfo(propertyInfo);
+		const typeMap = this._getMap(this._decodedEntity, basicInfo.type);
+		if (typeMap.has(basicInfo.id)) return typeMap.get(basicInfo.id);
 
-		const sirenComponent = sirenComponentFactory(propertyInfo);
-		typeMap.add(id, sirenComponent);
+		const sirenComponent = sirenComponentFactory(basicInfo);
+		typeMap.set(basicInfo.id, sirenComponent);
+		this._entity && sirenComponent.setSirenEntity(this._entity, typeMap);
 
 		return sirenComponent;
 	}

@@ -21,12 +21,12 @@ const observableClasses = Object.freeze({
 	[observableTypes.subEntity]: SirenSubEntity
 });
 
-function defaultBasicInfo({rel, type}) {
-	return { id: rel, type };
+function defaultBasicInfo({rel, observable}) {
+	return { id: rel, type: observable };
 }
 
 export function sirenComponentBasicInfo(componentProperties) {
-	const sirenComponentType = componentProperties.type && observableClasses[componentProperties.type];
+	const sirenComponentType = componentProperties.observable && observableClasses[componentProperties.observable];
 	if (!sirenComponentType) {
 		throw new Error('Bad siren component');
 	}

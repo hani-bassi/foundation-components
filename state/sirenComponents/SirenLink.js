@@ -3,8 +3,8 @@ import { Component } from './Common.js';
 import { shouldAttachToken } from '../token.js';
 
 export class SirenLink {
-	constructor({rel, token}) {
-		this._rel = rel;
+	constructor({id, token}) {
+		this._rel = id;
 		this._components = new Component();
 		this._token = token;
 	}
@@ -31,7 +31,7 @@ export class SirenLink {
 
 	addComponent(component, property){
 		this._components.add(component, property);
-		this._components.setComponentProperty(component, this.value);
+		this._components.setComponentProperty(component, this.link && this.link.href);
 	}
 
 	deleteComponent(component) {
@@ -40,7 +40,7 @@ export class SirenLink {
 	}
 
 	setSirenEntity(sirenEntity, linkCollectionMap) {
-		this.link = sirenEntity && sirenEntity.hasLinkByRel(this._rel) && sirenEntity.getLinkByRel(this._rel);
+		this.link = sirenEntity && sirenEntity.hasLinkByRel(this.rel) && sirenEntity.getLinkByRel(this.rel);
 		if (!this.link) return;
 
 		if (linkCollectionMap && linkCollectionMap instanceof Map) {

@@ -28,7 +28,6 @@ export class SirenProperty {
 	}
 
 	addComponent(component, property) {
-		console.log(['prop1', property, this.value]);
 		this._components.add(component, property);
 		this._components.setComponentProperty(component, this.value);
 	}
@@ -38,8 +37,6 @@ export class SirenProperty {
 	}
 
 	setSirenEntity(sirenEntity) {
-		console.log(['prop2', this.property, sirenEntity]);
 		this.value = sirenEntity && sirenEntity.properties && sirenEntity.properties[this.property];
-		console.log(this.value);
 	}
 }

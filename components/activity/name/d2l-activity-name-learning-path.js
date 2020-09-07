@@ -20,7 +20,6 @@ class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 	}
 
 	render() {
-		console.log(this._specalizationHref);
 		return html`
 			<d2l-hm-name href="${ifDefined(this._specalizationHref)}" .token="${this.token}"></d2l-hm-name>
 		`;

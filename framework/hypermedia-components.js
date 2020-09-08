@@ -11,7 +11,6 @@ export function customHypermediaElement(tag, elementClass, pseudoTag, hypermedia
 }
 
 export function html(strings, ...values) {
-	console.log([strings, values]);
 	const stringCollections = [{strings: [], values: []}];
 	strings = [...strings];
 	const tagStack = [];
@@ -49,7 +48,6 @@ export function html(strings, ...values) {
 		currentCollection.strings.push(currentString);
 		currentValue && currentCollection.values.push(currentValue);
 	}
-	console.log(stringCollections);
 	return new TemplateResult(stringCollections[0].strings, stringCollections[0].values, 'html', defaultTemplateProcessor);
 }
 

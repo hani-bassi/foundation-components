@@ -21,17 +21,33 @@ const observableClasses = Object.freeze({
 	[observableTypes.subEntity]: SirenSubEntity
 });
 
-function defaultBasicInfo({rel, observable}) {
-	return { id: rel, type: observable };
+function defaultBasicInfo({observable: type, prime, rel: id, route, token}) {
+	return {
+		id,
+		route,
+		token: (prime || route) ? token : undefined,
+		type
+	};
+}
+
+function handleRouting(componentProperties) {
+	if (!componentProperties.route || componentProperties.route.length === 0) return componentProperties;
+
+	const currentProperties = componentProperties.route.shift();
+	return {...componentProperties, ...currentProperties, route: componentProperties};
+
 }
 
 export function sirenComponentBasicInfo(componentProperties) {
+	componentProperties = handleRouting(componentProperties);
 	const sirenComponentType = componentProperties.observable && observableClasses[componentProperties.observable];
 	if (!sirenComponentType) {
 		throw new Error('Bad siren component');
 	}
 
-	return sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : defaultBasicInfo(componentProperties);
+	const specailBasicInfo = sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : {};
+
+	return {...defaultBasicInfo(componentProperties), ...specailBasicInfo};
 }
 
 export function sirenComponentFactory(componentProperties) {

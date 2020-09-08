@@ -11,6 +11,7 @@ const rels = Object.freeze({
 class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 	static get properties() {
 		return {
+			name: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}]},
 			_specalizationHref: { type: String, observable: observableTypes.link, rel: rels.specialization }
 		};
 	}
@@ -21,6 +22,7 @@ class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 
 	render() {
 		return html`
+			<div>${this.name}</div>
 			<d2l-hm-name href="${ifDefined(this._specalizationHref)}" .token="${this.token}"></d2l-hm-name>
 		`;
 	}

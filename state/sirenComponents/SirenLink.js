@@ -6,6 +6,7 @@ export class SirenLink {
 	constructor({id, token}) {
 		this._rel = id;
 		this._components = new Component();
+		this._routes = new Map();
 		this._token = token;
 	}
 
@@ -29,17 +30,25 @@ export class SirenLink {
 		return this._rel;
 	}
 
-	addComponent(component, property) {
+	addComponent(component, property, route) {
+		if (route) {
+			this._routes.set(component, route);
+			return;
+		}
 		this._components.add(component, property);
 		this._components.setComponentProperty(component, this.link && this.link.href);
 	}
 
 	deleteComponent(component) {
+		if (this._route.has(component)) {
+			this._childState.dispose(component);
+			this._route.delete(component);
+			return;
+		}
 		this._components.delete(component);
-		this.childState.dispose;
 	}
 
-	setSirenEntity(sirenEntity, linkCollectionMap) {
+	async setSirenEntity(sirenEntity, linkCollectionMap) {
 		this.link = sirenEntity && sirenEntity.hasLinkByRel(this.rel) && sirenEntity.getLinkByRel(this.rel);
 		if (!this.link) return;
 
@@ -53,7 +62,10 @@ export class SirenLink {
 		}
 
 		if (this._token) {
-			this._childState = stateFactory(this.link.href, shouldAttachToken(this._token, this.link));
+			this._childState = await stateFactory(this.link.href, shouldAttachToken(this._token, this.link));
+			this._routes.forEach((route, component) => {
+				this._childState.addObservables(component, route);
+			});
 			fetch(this._childState);
 		}
 	}

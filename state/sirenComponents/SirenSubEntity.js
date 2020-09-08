@@ -6,6 +6,7 @@ export class SirenSubEntity {
 	constructor({id, token}) {
 		this._rel = id;
 		this._components = new Component();
+		this._routes = new Map();
 		this._token = token;
 	}
 
@@ -28,12 +29,21 @@ export class SirenSubEntity {
 		return this._childState;
 	}
 
-	addComponent(component, property) {
+	addComponent(component, property, route) {
+		if (route) {
+			this._routes.set(component, route);
+			return;
+		}
 		this._components.add(component, property);
 		this._components.setComponentProperty(component, this.entityId);
 	}
 
 	deleteComponent(component) {
+		if (this._route.has(component)) {
+			this._childState.dispose(component);
+			this._route.delete(component);
+			return;
+		}
 		this._components.delete(component);
 	}
 
@@ -53,11 +63,14 @@ export class SirenSubEntity {
 		this._setSubEntity(subEntity);
 	}
 
-	_setSubEntity(subEntity) {
+	async _setSubEntity(subEntity) {
 		this.entityId = this._getEntityIdFromSirenEntity(subEntity);
 
 		if (this._token) {
-			this._childState = stateFactory(this.entityId, shouldAttachToken(this._token, subEntity));
+			this._childState = await stateFactory(this.entityId, shouldAttachToken(this._token, subEntity));
+			this._routes.forEach((route, component) => {
+				this._childState.addObservables(component, route);
+			});
 			fetch(this._childState);
 		}
 	}

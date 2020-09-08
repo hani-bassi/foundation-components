@@ -1,4 +1,4 @@
-import { sirenComponentBasicInfo, sirenComponentFactory } from './sirenComponents/sirenComponentFactory.js'
+import { sirenComponentBasicInfo, sirenComponentFactory } from './sirenComponents/sirenComponentFactory.js';
 import { refreshToken } from './token.js';
 
 export const observableTypes = Object.freeze({
@@ -41,8 +41,8 @@ export class HypermediaState {
 	}
 
 	dispose(component) {
-		this._decodedEntity.forEach( typeMap => {
-			typeMap.forEach( sirenComponent => {
+		this._decodedEntity.forEach(typeMap => {
+			typeMap.forEach(sirenComponent => {
 				sirenComponent.deleteComponent(component);
 			});
 		});
@@ -63,8 +63,8 @@ export class HypermediaState {
 
 	setSirenEntity(entity) {
 		this._entity = entity;
-		this._decodedEntity.forEach( typeMap => {
-			typeMap.forEach( sirenComponent => {
+		this._decodedEntity.forEach(typeMap => {
+			typeMap.forEach(sirenComponent => {
 				sirenComponent.setSirenEntity(entity, typeMap);
 			});
 		});

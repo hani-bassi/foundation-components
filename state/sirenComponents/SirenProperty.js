@@ -2,17 +2,13 @@ import { Component } from './Common.js';
 
 export class SirenProperty {
 	static basicInfo({id, name, observable}) {
-		id = id || name.replace(/^_+/, '')
+		id = id || name.replace(/^_+/, '');
 		return { id, type: observable };
 	}
 
 	constructor({id}) {
 		this._property = id;
 		this._components = new Component();
-	}
-
-	get property() {
-		return this._property;
 	}
 
 	get value() {
@@ -25,6 +21,10 @@ export class SirenProperty {
 		}
 		this._value = value;
 
+	}
+
+	get property() {
+		return this._property;
 	}
 
 	addComponent(component, property) {

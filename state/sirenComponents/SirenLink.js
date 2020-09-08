@@ -9,16 +9,8 @@ export class SirenLink {
 		this._token = token;
 	}
 
-	get rel() {
-		return this._rel;
-	}
-
 	get link() {
 		return this._link;
-	}
-
-	get childState() {
-		return this._childState;
 	}
 
 	set link(link) {
@@ -29,14 +21,22 @@ export class SirenLink {
 
 	}
 
-	addComponent(component, property){
+	get childState() {
+		return this._childState;
+	}
+
+	get rel() {
+		return this._rel;
+	}
+
+	addComponent(component, property) {
 		this._components.add(component, property);
 		this._components.setComponentProperty(component, this.link && this.link.href);
 	}
 
 	deleteComponent(component) {
 		this._components.delete(component);
-		this.childState.dispose
+		this.childState.dispose;
 	}
 
 	setSirenEntity(sirenEntity, linkCollectionMap) {
@@ -59,7 +59,7 @@ export class SirenLink {
 	}
 
 	_merge(sirenLink) {
-		if (!sirenLink || !linkCollectionMap instanceof SirenLink) {
+		if (!sirenLink || !(sirenLink instanceof SirenLink)) {
 			return;
 		}
 

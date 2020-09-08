@@ -9,10 +9,6 @@ export class SirenSubEntity {
 		this._token = token;
 	}
 
-	get rel() {
-		return this._rel;
-	}
-
 	get entityId() {
 		return this._entityId;
 	}
@@ -22,7 +18,10 @@ export class SirenSubEntity {
 			this._components.setProperty(entityId);
 		}
 		this._entityId = entityId;
+	}
 
+	get rel() {
+		return this._rel;
 	}
 
 	get childState() {

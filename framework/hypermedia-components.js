@@ -26,7 +26,6 @@ export function html(strings, ...values) {
 			if (output[1] && isPseudoTag(output[1])) {
 				tagStack.push(output[1]);
 				if (tagStack.length === 1) {
-					currentCollection.strings.push(currentString.substring(0, output.index - currentStringPosition));
 					currentCollection = {strings: [], values: []};
 					stringCollections.push(currentCollection);
 					currentString = currentString.substring(output.index - currentStringPosition);
@@ -48,6 +47,8 @@ export function html(strings, ...values) {
 		currentCollection.strings.push(currentString);
 		currentValue && currentCollection.values.push(currentValue);
 	}
+
+	console.log('Final TemplateResult');
 	return new TemplateResult(stringCollections[0].strings, stringCollections[0].values, 'html', defaultTemplateProcessor);
 }
 
@@ -112,6 +113,8 @@ function render(state, components, resources, pseudoTag, strings, values) {
 		mainStrings[mainStrings.length - 1] += `</${tag}>`;
 	}
 
-	//dispose(state);
+	console.log("Create TemplateResult");
+	console.log(mainStrings);
+	console.log(mainValues);
 	return new TemplateResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
 }

@@ -39,7 +39,7 @@ class ComponentStore {
 		return componentTag.componentTag;
 	}
 
-	_getComponentTag(type, otherTypes, map, depth = 0) {
+	_getComponentTag(type, otherTypes, map, depth = 0) { 
 		map = map ? map : this._componentStore;
 		if (!map.has(type)) {
 			return { componentTag: map.has(defaultType) ? map.get(defaultType) : null, depth };
@@ -48,11 +48,15 @@ class ComponentStore {
 		if (!map) {
 			return null;
 		}
-		const componentTags = [];
-		for (const typeIndex in otherTypes) {
-			const type = otherTypes[typeIndex];
-			componentTags.push(this._getComponentTag(type, otherTypes.filter(otherType => otherType !== type), map, depth + 1));
 
+		const componentTag = {
+			componentTag : map.get(defaultType),
+			depth : depth
+		}
+		const componentTags = [componentTag];
+		for(const typeIndex in otherTypes) {
+			const type = otherTypes[typeIndex];
+			componentTags.push(this._getComponentTag(type, otherTypes.filter(otherType => otherType !== type), map, depth+1));
 		}
 
 		return this._reduceComponentTag(componentTags);

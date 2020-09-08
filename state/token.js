@@ -21,11 +21,8 @@ export function shouldAttachToken(token, sirenLink) {
 	}
 
 	const isNoFollow = -1 !== rel.indexOf('nofollow');
-	if (isNoFollow) {
-		return token.rawToken;
-	}
 
-	return TOKEN_COOKIE;
+	return isNoFollow ? TOKEN_COOKIE : token.rawToken;
 }
 
 export const TOKEN_COOKIE = -1;

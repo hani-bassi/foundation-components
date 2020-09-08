@@ -14,7 +14,7 @@ class ActivityEditor extends LitElement {
 
 	render() {
 		return html`
-			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+			<div style="border: 1px solid black"><d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name></div>
 			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
 			<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
 			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>

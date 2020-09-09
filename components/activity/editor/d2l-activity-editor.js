@@ -4,8 +4,8 @@ import './d2l-activity-editor-footer.js';
 import './d2l-activity-editor-header.js';
 import './d2l-activity-editor-main.js';
 import './d2l-activity-editor-sidebar.js';
-import { html } from '../../../framework/hypermedia-components.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { html } from '../../../framework/hypermedia-components.js';
 
 class ActivityEditor extends LitElement {
 	static get properties() {

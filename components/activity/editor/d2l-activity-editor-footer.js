@@ -1,7 +1,7 @@
 import '@brightspace-ui/core/components/button/button.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
-import { css, LitElement } from 'lit-element/lit-element.js';
 
 class ActivityEditorFooter extends HypermediaLitMixin(LitElement) {
 

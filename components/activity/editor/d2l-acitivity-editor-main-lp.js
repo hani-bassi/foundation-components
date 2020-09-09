@@ -1,5 +1,4 @@
-import { customHypermediaElement } from '../../../framework/hypermedia-components.js';
-import { html } from '../../../framework/hypermedia-components.js';
+import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 

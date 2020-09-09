@@ -14,6 +14,17 @@ export function compareTokens(a, b) {
 	return a.toString() === b.toString();
 }
 
+export function shouldAttachToken(token, sirenLink) {
+	const rel = sirenLink && sirenLink.rel;
+	if (!Array.isArray(rel)) {
+		return TOKEN_COOKIE;
+	}
+
+	const isNoFollow = -1 !== rel.indexOf('nofollow');
+
+	return isNoFollow ? TOKEN_COOKIE : token.rawToken;
+}
+
 export const TOKEN_COOKIE = -1;
 export const TOKEN_COOKIE_CACHE_KEY = 'cookie';
 

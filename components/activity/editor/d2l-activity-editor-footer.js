@@ -1,5 +1,4 @@
 import '@brightspace-ui/core/components/button/button.js';
-import { customHypermediaElement } from '../../../framework/hypermedia-components.js';
 import { html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
@@ -11,6 +10,9 @@ class ActivityEditorFooter extends HypermediaLitMixin(LitElement) {
 			:host {
 				display: flex;
 				justify-content: space-between;
+			}
+			d2l-button {
+				margin-bottom: 0.5rem;
 			}
 		`];
 	}
@@ -26,4 +28,4 @@ class ActivityEditorFooter extends HypermediaLitMixin(LitElement) {
 	}
 }
 
-customHypermediaElement('d2l-activity-editor-footer', ActivityEditorFooter);
+customElements.define('d2l-activity-editor-footer', ActivityEditorFooter);

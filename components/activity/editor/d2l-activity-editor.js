@@ -23,6 +23,16 @@ class ActivityEditor extends LitElement {
 				display: block;
 			}
 
+			.d2l-activity-editor-template-default {
+				display: grid;
+				grid-template-areas:
+					"header"
+					"content"
+					"footer";
+				grid-template-columns: auto;
+				grid-template-rows: auto 1fr auto;
+				height: calc(100vh - 62px);
+			}
 		`];
 	}
 
@@ -47,11 +57,13 @@ class ActivityEditor extends LitElement {
 
 	_renderDefault() {
 		return html`
-			<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
-			<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-			<d2l-floating-buttons always-float>
-				<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
-			</d2l-floating-buttons>
+			<div class="d2l-activity-editor-template-default">
+				<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
+				<d2l-floating-buttons always-float>
+					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+				</d2l-floating-buttons>
+			</div>
 		`;
 	}
 

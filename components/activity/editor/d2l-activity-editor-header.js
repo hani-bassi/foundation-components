@@ -1,3 +1,5 @@
+import '../description/d2l-activity-description.js';
+import '../name/d2l-activity-name.js';
 import { html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
 import { css, LitElement } from 'lit-element/lit-element.js';

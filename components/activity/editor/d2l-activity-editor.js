@@ -1,7 +1,5 @@
+import '@brightspace-ui/core/components/button/floating-buttons.js';
 import '@brightspace-ui/core/templates/primary-secondary/primary-secondary.js';
-import '../name/d2l-activity-name.js';
-import '../description/d2l-activity-description.js';
-import '../type/d2l-activity-type.js';
 import './d2l-activity-editor-footer.js';
 import './d2l-activity-editor-header.js';
 import './d2l-activity-editor-main.js';
@@ -51,7 +49,9 @@ class ActivityEditor extends LitElement {
 		return html`
 			<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 			<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-			<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+			<d2l-floating-buttons always-float>
+				<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+			</d2l-floating-buttons>
 		`;
 	}
 
@@ -62,7 +62,9 @@ class ActivityEditor extends LitElement {
 				<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
 				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-sidebar>
-				<d2l-activity-editor-footer slot="footer" href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+				<div slot="footer">
+					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+				</div>
 			</d2l-template-primary-secondary>
 		`;
 	}

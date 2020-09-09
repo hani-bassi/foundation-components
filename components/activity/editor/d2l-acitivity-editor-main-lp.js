@@ -1,17 +1,15 @@
-import './d2l-acitivity-editor-main-lp.js';
-
 import { customHypermediaElement } from '../../../framework/hypermedia-components.js';
 import { html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
-class ActivityEditorMain extends HypermediaLitMixin(LitElement) {
+class ActivityEditorMainLP extends HypermediaLitMixin(LitElement) {
 
 	render() {
 		return html`
-			Main
+			ANOTHER MAIN
 		`;
 	}
 }
 
-customHypermediaElement('d2l-activity-editor-main', ActivityEditorMain, 'd2l-activity-editor-main');
+customHypermediaElement('d2l-activity-editor-main-lp', ActivityEditorMainLP, 'd2l-activity-editor-main', [['learning-path']]);

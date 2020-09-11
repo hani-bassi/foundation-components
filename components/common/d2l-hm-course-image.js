@@ -31,7 +31,7 @@ class HmCourseImage extends HypermediaLitMixin(LitElement) {
 
 	render() {
 		return html`
-			<d2l-course-image .image="${this.courseImage}" sizes="${this.tileSizes}" type="${this.type}"></d2l-course-image>
+			<d2l-course-image .image="${this.courseImage}" .sizes="${this.tileSizes}" type="${this.type}"></d2l-course-image>
 		`;
 	}
 

@@ -2,8 +2,8 @@ import '@brightspace-ui/core/components/button/floating-buttons.js';
 import '@brightspace-ui/core/templates/primary-secondary/primary-secondary.js';
 import './d2l-activity-editor-footer.js';
 import './d2l-activity-editor-header.js';
-import './d2l-activity-editor-main.js';
 import './d2l-activity-editor-sidebar.js';
+import './d2l-activity-editor-main.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '../../../framework/hypermedia-components.js';
 

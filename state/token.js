@@ -2,17 +2,19 @@
 let gettingToken = null;
 
 export async function getToken(token) {
+	if (typeof (token) !== 'function') {
+		return new Token(token, token);
+	}
 	if (gettingToken) {
 		return gettingToken;
 	}
 	let resolver;
 	gettingToken = new Promise(resolve => resolver = resolve);
 
-	const tokenValue = await ((typeof (token) === 'function')
-		? token()
-		: token);
+	const tokenValue = await token();
 	const resolvedToken = new Token(tokenValue, token);
 	resolver(resolvedToken);
+	gettingToken = null;
 	return resolvedToken;
 }
 

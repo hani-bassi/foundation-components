@@ -1,9 +1,19 @@
+//todo: functionality great messy as hell
+let gettingToken = null;
+
 export async function getToken(token) {
+	if (gettingToken) {
+		return gettingToken;
+	}
+	let resolver;
+	gettingToken = new Promise(resolve => resolver = resolve);
+
 	const tokenValue = await ((typeof (token) === 'function')
 		? token()
 		: token);
-
-	return new Token(tokenValue, token);
+	const resolvedToken = new Token(tokenValue, token);
+	resolver(resolvedToken);
+	return resolvedToken;
 }
 
 export async function refreshToken(token) {
@@ -30,7 +40,7 @@ export const TOKEN_COOKIE_CACHE_KEY = 'cookie';
 
 class Token {
 	constructor(token, rawToken) {
-		this._cacheKey = this._praseCacheKey(token);
+		this._cacheKey = this._parseCacheKey(token);
 		this._value = token;
 		this._rawToken = rawToken;
 	}
@@ -59,7 +69,7 @@ class Token {
 	 * From the static data from the JWT create a static key.
 	 * @param {*} token
 	 */
-	_praseCacheKey(token) {
+	_parseCacheKey(token) {
 		if (!token) {
 			return '';
 		}

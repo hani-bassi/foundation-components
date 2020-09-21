@@ -76,4 +76,16 @@ export class SirenSubEntity {
 			fetch(this._childState);
 		}
 	}
+
+	_merge(sirenLink) {
+		if (!sirenLink || !(sirenLink instanceof SirenSubEntity)) {
+			return;
+		}
+
+		sirenLink._components.components.forEach((component, property) => {
+			this.addComponent(component, property);
+		});
+
+		this._token = this._token || sirenLink._token;
+	}
 }

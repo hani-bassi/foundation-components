@@ -16,7 +16,7 @@ class ActivityImageCollection extends HypermediaLitMixin(LitElement) {
 	}
 
 	static get styles() {
-        return [ css`` ];
+		return [ css`` ];
 	}
 
 	render() {

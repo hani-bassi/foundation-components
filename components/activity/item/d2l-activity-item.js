@@ -26,7 +26,7 @@ class ActivityItem extends HypermediaLitMixin(LitElement) {
 	render() {
 		return html`
 			<d2l-list-item>
-				<d2l-activity-image href="${this._activityHref}" .token="${this.token}"></d2l-activity-image>
+				<d2l-activity-image href="${this._activityHref}" .token="${this.token}" slot="illustration"></d2l-activity-image>
 				<d2l-list-item-content> <!-- This would actually be unique to the type -->
 					<d2l-activity-name href="${this._activityHref}" .token="${this.token}"></d2l-activity-name>
 					<d2l-activity-type href="${ifDefined(this._activityHref)}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>

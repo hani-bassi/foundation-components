@@ -2,11 +2,11 @@ import '@brightspace-ui/core/components/list/list-item-content.js';
 import '../name/d2l-activity-name.js';
 import '../type/d2l-activity-type.js';
 import '../image/d2l-activity-image.js';
-import { LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { guard } from 'lit-html/directives/guard';
 import { html } from '../../../framework/hypermedia-components.js';
-import {guard} from 'lit-html/directives/guard';
 import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
+import { LitElement } from 'lit-element/lit-element.js';
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'

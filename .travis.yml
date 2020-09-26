@@ -13,7 +13,9 @@ script:
     npm run test:headless || travis_terminate 1;
   fi
 after_success:
-- frauci-update-version -d=skip && export TRAVIS_TAG=$(frauci-get-version)
+  provider: script
+  skip_cleanup: true
+  script: npx semantic-release
 env:
   global:
   - SAUCE_USERNAME: Desire2Learn

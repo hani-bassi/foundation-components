@@ -1,4 +1,5 @@
 import { dispose, fetch, stateFactory } from '../state/store.js';
+import { deepCopy } from '../helper/deepCopy.js';
 export { observableTypes } from '../state/HypermediaState.js';
 
 /**
@@ -22,7 +23,11 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 
 	constructor() {
 		super();
-		this._observables = this.constructor.properties;
+		this.__observables = this.constructor.properties;
+	}
+
+	get _observables() {
+		return deepCopy(this.__observables);
 	}
 
 	updated(changedProperties) {
@@ -46,12 +51,16 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 	}
 
 	async _makeState() {
+		if (this.__gettingState) return;
 		try {
+			this.__gettingState = true;
 			this._state = await stateFactory(this.href, this.token);
 			this._state.addObservables(this, this._observables);
 			await fetch(this._state);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			this.__gettingState = false;
 		}
 	}
 

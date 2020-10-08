@@ -1,5 +1,5 @@
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/src/framework/hypermedia-lit-mixin.js';
-import { html } from 'foundation-engine/src/framework/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { html } from 'foundation-engine/framework/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 class ActivityType extends HypermediaLitMixin(LitElement) {

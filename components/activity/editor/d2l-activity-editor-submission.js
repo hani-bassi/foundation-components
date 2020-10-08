@@ -1,12 +1,12 @@
 import './d2l-activity-editor-type.js';
 import '@brightspace-ui-labs/accordion/accordion-collapse.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import { customHypermediaElement, html } from 'foundation-engine/src/framework/hypermedia-components.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
 import {
 	summarizerHeaderStyles,
 	summarizerSummaryStyles
 } from 'd2l-activities/components/d2l-activity-editor/d2l-activity-assignment-editor/activity-summarizer-styles.js';
-import { HypermediaLitMixin } from 'foundation-engine/src/framework/hypermedia-lit-mixin.js';
+import { HypermediaLitMixin } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';

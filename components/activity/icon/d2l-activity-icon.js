@@ -1,7 +1,7 @@
 import '@brightspace-ui/core/components/icons/icon.js';
 import { html, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/src/framework/hypermedia-lit-mixin.js';
-import { ParentLitMixin } from 'foundation-engine/src/framework/parent-lit-mixin.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { ParentLitMixin } from 'foundation-engine/framework/parent-lit-mixin.js';
 
 class ActivityIcon extends ParentLitMixin(HypermediaLitMixin(LitElement)) {
 	static get properties() {

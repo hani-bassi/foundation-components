@@ -2,9 +2,9 @@ import '@brightspace-ui/core/components/list/list-item-content.js';
 import '../name/d2l-activity-name.js';
 import '../type/d2l-activity-type.js';
 import '../image/d2l-activity-image.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/src/framework/hypermedia-lit-mixin.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 import { guard } from 'lit-html/directives/guard';
-import { html } from 'foundation-engine/src/framework/hypermedia-components.js';
+import { html } from 'foundation-engine/framework/hypermedia-components.js';
 import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 

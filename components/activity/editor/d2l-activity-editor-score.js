@@ -1,7 +1,7 @@
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from 'foundation-engine/src/framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/src/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 
 const rels = Object.freeze({

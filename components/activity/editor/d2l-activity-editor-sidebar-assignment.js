@@ -1,8 +1,8 @@
 import './d2l-activity-editor-availability.js';
 import './d2l-activity-editor-submission.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'

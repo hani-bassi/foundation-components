@@ -1,8 +1,8 @@
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
-import { html } from 'foundation-engine/framework/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',

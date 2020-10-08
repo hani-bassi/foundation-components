@@ -1,8 +1,8 @@
 import '../../common/d2l-hm-name.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 const rels = Object.freeze({

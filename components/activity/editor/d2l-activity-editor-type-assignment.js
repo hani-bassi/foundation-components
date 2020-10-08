@@ -1,7 +1,7 @@
 import { bodyCompactStyles, bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';

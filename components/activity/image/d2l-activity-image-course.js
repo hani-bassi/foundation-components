@@ -1,7 +1,7 @@
 import '../../common/d2l-hm-course-image.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
 
 const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'

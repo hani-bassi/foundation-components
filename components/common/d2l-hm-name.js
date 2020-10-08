@@ -1,8 +1,8 @@
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 
-class HmName extends HypermediaLitMixin(LitElement) {
+class HmName extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property }

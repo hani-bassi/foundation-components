@@ -1,8 +1,8 @@
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
-class ActivityType extends HypermediaLitMixin(LitElement) {
+class ActivityType extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			classes: { type: Array, observable: observableTypes.classes }

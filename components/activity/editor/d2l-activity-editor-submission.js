@@ -6,12 +6,12 @@ import {
 	summarizerHeaderStyles,
 	summarizerSummaryStyles
 } from 'd2l-activities/components/d2l-activity-editor/d2l-activity-assignment-editor/activity-summarizer-styles.js';
-import { HypermediaLitMixin } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
-class ActivityEditorSubmission extends HypermediaLitMixin(LitElement) {
+class ActivityEditorSubmission extends HypermediaStateMixin(LitElement) {
 
 	static get styles() {
 		const styles = [

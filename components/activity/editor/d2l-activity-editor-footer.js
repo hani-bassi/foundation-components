@@ -2,9 +2,9 @@ import '@brightspace-ui/core/components/button/button.js';
 import 'd2l-activities/components/d2l-activity-editor/d2l-activity-visibility-editor-toggle.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaLitMixin } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 
-class ActivityEditorFooter extends HypermediaLitMixin(LitElement) {
+class ActivityEditorFooter extends HypermediaStateMixin(LitElement) {
 
 	static get styles() {
 		return [css`

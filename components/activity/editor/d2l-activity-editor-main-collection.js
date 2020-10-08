@@ -6,7 +6,7 @@ import '../item/d2l-activity-item.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({
@@ -14,7 +14,7 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
-class ActivityEditorMainCollection extends HypermediaLitMixin(LitElement) {
+class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {

@@ -1,4 +1,4 @@
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
@@ -6,7 +6,7 @@ const rels = Object.freeze({
 	releaseConditionsDialogOpener: 'https://activities.api.brightspace.com/rels/release-conditions-dialog-opener'
 });
 // todo: REQUIRES SELFLESS ENTITIES TO FUNCTION
-class ActivityEditorAvailability extends HypermediaLitMixin(LitElement) {
+class ActivityEditorAvailability extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {

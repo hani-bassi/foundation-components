@@ -1,7 +1,7 @@
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaLitMixin, observableTypes } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 
 const rels = Object.freeze({
@@ -9,7 +9,7 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
-class CollectionEditor extends HypermediaLitMixin(LitElement) {
+class CollectionEditor extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}] }

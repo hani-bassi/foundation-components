@@ -2,9 +2,9 @@ import '../description/d2l-activity-description.js';
 import '../name/d2l-activity-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaLitMixin } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 
-class ActivityEditorHeader extends HypermediaLitMixin(LitElement) {
+class ActivityEditorHeader extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {

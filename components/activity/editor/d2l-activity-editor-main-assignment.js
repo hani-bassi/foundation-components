@@ -1,7 +1,7 @@
 import './d2l-activity-editor-name.js';
 import './d2l-activity-editor-score.js';
 import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaLitMixin } from 'foundation-engine/framework/lit/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LitElement } from 'lit-element/lit-element.js';
 import { observableTypes } from 'foundation-engine/state/sirenComponents/sirenComponentFactory.js';
@@ -11,7 +11,7 @@ const rels = Object.freeze({
 	instructions: 'https://assignments.api.brightspace.com/rels/instructions'
 });
 
-class ActivityEditorMainAssignment extends HypermediaLitMixin(LitElement) {
+class ActivityEditorMainAssignment extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {

@@ -204,8 +204,8 @@ export class HypermediaResult extends TemplateResult {
 			mainStrings[mainStrings.length - 1] += `</${tag}>`;
 		}
 
-		// return all of this information as a HypermediaResult to be stored as a value for a different Result
+		// return all of this information as a TemplateResult to be stored as a value for a different Result
 
-		return new HypermediaResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
+		return new TemplateResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
 	}
 }

@@ -9,8 +9,8 @@ A collection of shareable, stateful components that interact with hypermedia API
 ## Example
 
 ```js
-import 'hmc-foundation/components/activity/name/d2l-activity-name.js';
-import { html } from 'hmc-foundation/framework/hypermedia-components.js';
+import 'foundation/components/activity/name/d2l-activity-name.js';
+import { html } from 'foundation/framework/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 class MyComponent extends LitElement {
@@ -78,3 +78,11 @@ npm test
 All version changes should obey [semantic versioning](https://semver.org/) rules.
 
 Include either `[increment major]`, `[increment minor]` or `[increment patch]` in your merge commit message to automatically increment the `package.json` version and create a tag.
+
+## Future Enhancements
+
+* Error reporting
+* Screenshots for component Readmes
+* Support for Working Copy
+
+Looking for an enhancement not listed here? Create a GitHub issue!

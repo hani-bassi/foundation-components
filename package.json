@@ -1,5 +1,5 @@
 {
-  "name": "foundation-components",
+  "name": "@brightspacehmc/foundation-components",
   "description": "Stateful and dynamically resolved hypermedia components for Brightspace",
   "repository": {
     "type": "git",

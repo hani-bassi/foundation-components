@@ -1,10 +1,9 @@
 import '../../name/d2l-activity-name-editor.js';
 import '../../../../features/assignments/d2l-activity-editor-score.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { HypermediaStateMixin, observableTypes  } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LitElement } from 'lit-element/lit-element.js';
-import { observableTypes } from '@brightspace-hmc/foundation-engine/state/sirenComponents/sirenComponentFactory.js';
 
 const rels = Object.freeze({
 	assignment: 'https://api.brightspace.com/rels/assignment',

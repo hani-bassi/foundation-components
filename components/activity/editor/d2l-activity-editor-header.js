@@ -1,4 +1,4 @@
-import '../description/d2l-activity-description.js';
+import '../description/d2l-activity-description-editor.js';
 import '../name/d2l-activity-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -35,7 +35,7 @@ class ActivityEditorHeader extends HypermediaStateMixin(LitElement) {
 			<h1 class="d2l-heading-1">
 				<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
 			</h1>
-			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>
+			<d2l-activity-description-editor href="${this.href}" .token="${this.token}"></d2l-activity-description-editor>
 		`;
 	}
 }

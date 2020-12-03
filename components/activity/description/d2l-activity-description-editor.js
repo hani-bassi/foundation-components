@@ -11,9 +11,11 @@ const rels = Object.freeze({
 });
 
 class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
+
 	static get properties() {
 		return {
-			description: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}] },
+			description: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}],
+				hasChanged: () => true},
 			updateDescription: { type: Object, observable: observableTypes.action, name: 'update-description',
 				route: [{observable: observableTypes.link, rel: rels.specialization}]
 			}
@@ -43,8 +45,8 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 			<textarea class="d2l-input"
 				@input="${this._onInputDescription}"
 				placeholder="Write a description"
-				value="${this.description ? this.description : ''}"
-			></textarea>
+				.value="${this.description}"
+			>${this.description ? this.description : ''}</textarea>
 		</label>
 		` : null;
 	}

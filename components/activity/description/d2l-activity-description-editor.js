@@ -1,8 +1,10 @@
 import '../../common/d2l-hc-description.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-import { LitElement } from 'lit-element/lit-element.js';
+import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
+import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
@@ -18,14 +20,32 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 		};
 	}
 
+	static get styles() {
+		return [ inputLabelStyles, inputStyles,
+			css`
+			@media (max-width: 615px) {
+				textarea.d2l-input {
+					height: 100px;
+				}
+			}
+
+			textarea.d2l-input {
+				resize: none;
+			}
+			`
+		];
+	}
+
 	render() {
 		return this.updateDescription.has ? html`
-			<d2l-input-text
+		<label>
+			<span class="d2l-input-label">Description</span>
+			<textarea class="d2l-input"
 				@input="${this._onInputDescription}"
-				label="Description"
-				placeholder="Enter a description"
+				placeholder="Write a description"
 				value="${this.description ? this.description : ''}"
-			></d2l-input-text>
+			></textarea>
+		</label>
 		` : null;
 	}
 

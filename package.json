@@ -38,7 +38,7 @@
     "puppeteer": "^1"
   },
   "dependencies": {
-    "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine#semver:^0",
+    "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine#semver:^0.1",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
     "@brightspace-ui/core": "^1",
     "d2l-activities": "BrightspaceHypermediaComponents/activities.git#semver:^3",

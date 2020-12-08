@@ -47,7 +47,7 @@ module.exports = config => {
 			customLaunchers: customLaunchers,
 			browsers: Object.keys(customLaunchers),
 			reporters: ['dots', 'saucelabs'],
-			singleRun: true
+			singleRun: true,
 		}),
 	);
 	return config;

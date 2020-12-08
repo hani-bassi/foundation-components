@@ -26,12 +26,12 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 		return [ inputLabelStyles, inputStyles,
 			css`
 			@media (max-width: 615px) {
-				textarea.d2l-input {
-					height: 100px;
+				.d2l-activity-description-editor textarea {
+					height: 5rem;
 				}
 			}
 
-			textarea.d2l-input {
+			.d2l-activity-description-editor textarea {
 				resize: none;
 			}
 			`
@@ -39,8 +39,8 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		return this.updateDescription.has ? html`
-		<label>
+		return this._hasAction('updateDescription') ? html`
+		<label class="d2l-activity-description-editor">
 			<span class="d2l-input-label">Description</span>
 			<textarea class="d2l-input"
 				@input="${this._onInputDescription}"
@@ -52,11 +52,10 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 	}
 
 	_onInputDescription(e) {
-		if (this.updateDescription.has) {
+		if (this._hasAction('updateDescription')) {
 			this.updateDescription.commit({description: { observable: observableTypes.property, value: e.target.value} });
 		}
 	}
-
 }
 
 customHypermediaElement('d2l-activity-description-editor', ActivityDescriptionEditor);

@@ -10,20 +10,19 @@ describe('d2l-activity-description-editor', () => {
 	// use the learningPathUpdated description as the text when updating textareas
 	const updatedDescriptionText = learningPathUpdated.properties.description;
 
-	async function _createComponentAndWait(path)
-	{
+	const _createComponentAndWait = async(path) => {
 		const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
 		await _elementUpdated(element);
 		return element;
-	}
+	};
 
 	// using a delay to wait for fetchMock to be called
 	// would prefer a better way
-	async function _elementUpdated(element) {
+	const _elementUpdated = async(element) => {
 		return aTimeout(100).then(async() => {
 			await elementUpdated(element);
 		});
-	}
+	};
 
 	describe('constructor', () => {
 

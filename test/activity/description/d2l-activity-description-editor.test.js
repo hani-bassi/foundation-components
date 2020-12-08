@@ -5,25 +5,25 @@ import { mockLink } from '../../fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
-// use the learningPathUpdated description as the text when updating textareas
-const updatedDescriptionText = learningPathUpdated.properties.description;
-
-async function _createComponentAndWait(path)
-{
-	const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
-	await _elementUpdated(element);
-	return element;
-}
-
-// using a delay to wait for fetchMock to be called
-// would prefer a better way
-async function _elementUpdated(element) {
-	return aTimeout(100).then(async() => {
-		await elementUpdated(element);
-	});
-}
-
 describe('d2l-activity-description-editor', () => {
+
+	// use the learningPathUpdated description as the text when updating textareas
+	const updatedDescriptionText = learningPathUpdated.properties.description;
+
+	async function _createComponentAndWait(path)
+	{
+		const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
+		await _elementUpdated(element);
+		return element;
+	}
+
+	// using a delay to wait for fetchMock to be called
+	// would prefer a better way
+	async function _elementUpdated(element) {
+		return aTimeout(100).then(async() => {
+			await elementUpdated(element);
+		});
+	}
 
 	describe('constructor', () => {
 

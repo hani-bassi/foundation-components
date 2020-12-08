@@ -128,6 +128,8 @@ describe('d2l-activity-description-editor', () => {
 			console.log(textarea);
 			assert.equal(element.description, updatedDescriptionText, 'description should be updated');
 
+			await aTimeout(1000);
+
 			console.log(textarea);
 
 			const spy = sinon.spy(element);

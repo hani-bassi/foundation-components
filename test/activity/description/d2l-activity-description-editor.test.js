@@ -120,21 +120,16 @@ describe('d2l-activity-description-editor', () => {
 			const element = await _createComponentAndWait('/learning-path/existing');
 
 			const textarea = element.shadowRoot.querySelector('label textarea');
-			console.log(textarea);
 			textarea.value = updatedDescriptionText;
 			const inputEvent = new Event('input');
 			textarea.dispatchEvent(inputEvent);
 
-			console.log(textarea);
 			assert.equal(element.description, updatedDescriptionText, 'description should be updated');
 
 			await aTimeout(1000);
 
-			console.log(textarea);
-
 			const spy = sinon.spy(element);
 			element._state.reset();
-			console.log(textarea);
 			await aTimeout(100);
 			await _elementUpdated(element);
 			assert.equal(element.description, learningPathExisting.properties.description, 'description should be reset');
@@ -142,8 +137,6 @@ describe('d2l-activity-description-editor', () => {
 			assert.isTrue(spy.render.called);
 
 			const textarea2 = element.shadowRoot.querySelector('label textarea');
-			console.log(textarea2);
-			console.log(textarea2.value);
 			assert.equal(textarea2.value, learningPathExisting.properties.description, 'textarea value should be reset');
 		});
 	});

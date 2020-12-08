@@ -24,15 +24,12 @@ export const mockLink = fetchMock.mock('path:/learning-path/new', () => {
 		return learningPathNew;
 	})
 	.mock('path:/learning-path/existing', () => {
-		console.log('called /lp/e/');
 		return GenerateComponentLink('/learning-path/existing/object');
 	})
 
 	.mock('path:/learning-path/existing/object', () => {
-		console.log('called /lp/e/o');
 		return learningPathExisting;
 	})
 	.mock('path:/description/update', () => {
-		console.log('called /d/u');
 		return learningPathUpdated;
 	});

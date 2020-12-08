@@ -14,8 +14,7 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
-			description: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}],
-				hasChanged: () => true},
+			description: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}]},
 			updateDescription: { type: Object, observable: observableTypes.action, name: 'update-description',
 				route: [{observable: observableTypes.link, rel: rels.specialization}]
 			}

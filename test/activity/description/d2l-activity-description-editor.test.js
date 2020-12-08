@@ -1,8 +1,9 @@
 import '../../../components/activity/description/d2l-activity-description-editor.js';
-import { assert, elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { assert, aTimeout, elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { learningPathExisting, learningPathNew, learningPathUpdated } from '../../data.js';
 import { mockLink } from '../../fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
+import sinon from 'sinon/pkg/sinon-esm.js';
 
 // use the learningPathUpdated description as the text when updating textareas
 const updatedDescriptionText = learningPathUpdated.properties.description;
@@ -17,17 +18,8 @@ async function _createComponentAndWait(path)
 // using a delay to wait for fetchMock to be called
 // would prefer a better way
 async function _elementUpdated(element) {
-	return _delay(100).then(async() => {
-		return elementUpdated(element);
-	});
-}
-
-async function _delay(timeMs)
-{
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			resolve();
-		}, timeMs);
+	return aTimeout(100).then(async() => {
+		await elementUpdated(element);
 	});
 }
 
@@ -41,6 +33,11 @@ describe('d2l-activity-description-editor', () => {
 	});
 
 	describe('Component', () => {
+
+		afterEach(() => {
+			mockLink.resetHistory();
+		});
+
 		it('should initialize using defined path and expected values', async() => {
 			const element = await _createComponentAndWait('/learning-path/new');
 
@@ -82,15 +79,16 @@ describe('d2l-activity-description-editor', () => {
 			const element = await _createComponentAndWait('/learning-path/existing');
 			assert.equal(element.description, learningPathExisting.properties.description, 'description should match response');
 
+			// update textarea
 			const textarea = element.shadowRoot.querySelector('label textarea');
 			textarea.value = updatedDescriptionText;
+
+			// create spy and trigger input event
+			const spy = sinon.spy(element.updateDescription);
 			const inputEvent = new Event('input');
 			textarea.dispatchEvent(inputEvent);
-			assert.equal(element.description, learningPathExisting.properties.description, 'description should not be updated after event');
 
-			// does this happen after a commit?
-			await _elementUpdated(element);
-			assert.equal(element.description, learningPathExisting.properties.description, 'description should not be updated when element updates');
+			assert.isTrue(spy.commit.called, 'Commit should be called when input event is triggered');
 		});
 
 		/* 	These are out of scope, but provided basic mock up for save / cancel
@@ -103,12 +101,15 @@ describe('d2l-activity-description-editor', () => {
 			textarea.value = updatedDescriptionText;
 			const inputEvent = new Event('input');
 			textarea.dispatchEvent(inputEvent);
-			assert.equal(element.description, learningPathExisting.properties.description, 'description should not be updated after event');
 
-			await element._state.push();
+			const spy = sinon.spy(element);
+			element._state.push();
+			await aTimeout(100);
 			await _elementUpdated(element);
-			// update fetch should have been called
+
 			assert.isTrue(mockLink.called('path:/description/update'));
+
+			assert.isTrue(spy.render.called);
 
 			assert.equal(element.description, updatedDescriptionText, 'description should be updated after a push');
 			textarea = element.shadowRoot.querySelector('label textarea');
@@ -118,18 +119,30 @@ describe('d2l-activity-description-editor', () => {
 		it('reset state should revert text', async() => {
 			const element = await _createComponentAndWait('/learning-path/existing');
 
-			let textarea = element.shadowRoot.querySelector('label textarea');
+			const textarea = element.shadowRoot.querySelector('label textarea');
+			console.log(textarea);
 			textarea.value = updatedDescriptionText;
 			const inputEvent = new Event('input');
 			textarea.dispatchEvent(inputEvent);
 
-			// figure out how to call reset()
-			element._state.reset();
-			await _elementUpdated(element);
-			assert.equal(element.description, learningPathExisting.properties.description, 'description should not have changed');
+			console.log(textarea);
+			assert.equal(element.description, updatedDescriptionText, 'description should be updated');
 
-			textarea = element.shadowRoot.querySelector('label textarea');
-			assert.equal(textarea.value, learningPathExisting.properties.description, 'textarea value should be reset');
+			console.log(textarea);
+
+			const spy = sinon.spy(element);
+			element._state.reset();
+			console.log(textarea);
+			await aTimeout(100);
+			await _elementUpdated(element);
+			assert.equal(element.description, learningPathExisting.properties.description, 'description should be reset');
+
+			assert.isTrue(spy.render.called);
+
+			const textarea2 = element.shadowRoot.querySelector('label textarea');
+			console.log(textarea2);
+			console.log(textarea2.value);
+			assert.equal(textarea2.value, learningPathExisting.properties.description, 'textarea value should be reset');
 		});
 	});
 

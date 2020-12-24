@@ -1,8 +1,7 @@
-// START custom component imports
-// END custom component imports
+
 import '@brightspace-ui/core/components/list/list.js';
-import '@brightspace-ui/core/components/list/list-item.js';
-import '../../list/d2l-activity-list-item.js';
+import '../../list/d2l-activity-list-item-accumulator.js';
+import './d2l-activity-editor-collection-add.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -18,7 +17,9 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
-			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}] }
+			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route:
+				[{ observable: observableTypes.link, rel: rels.collection }] },
+			collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
 	}
 
@@ -59,13 +60,25 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary>Add Activity</d2l-button>
+						<d2l-activity-editor-collection-add href="${this.collectionHref}" .token="${this.token}">
+						</d2l-activity-editor-collection-add>
 						<div class="d2l-body-compact">Activities: ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list @d2l-list-item-position-change="${this._moveItems}">
-						${repeat(this.items, item => item.href, item => html`<d2l-activity-list-item href="${item.href}" .token="${this.token}" draggable key="${item.properties.id}"></d2l-activity-list-item>`)}
+						${repeat(
+							this.items,
+							item => item.href,
+							item => html`
+								<d2l-activity-list-item-accumulator
+									href="${item.href}"
+									.token="${this.token}"
+									draggable
+									key="${item.properties.id}">
+								</d2l-activity-list-item-accumulator>
+							`
+						)}
 					</d2l-list>
 				</div>
 			</div>

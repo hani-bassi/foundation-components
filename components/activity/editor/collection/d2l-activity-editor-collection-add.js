@@ -12,13 +12,19 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
+const KEYCODES = Object.freeze({
+	space: 32,
+	enter: 13
+});
+
 class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			items: { observable: observableTypes.subEntities, rel: rels.item },
 			startAddExisting: { observable: observableTypes.summonAction, name: 'start-add-existing-activity' },
 			_candidates: { type: Array },
-			_dialogOpened: { type: Boolean }
+			_dialogOpened: { type: Boolean },
+			_selectionCount: { type: Number }
 		};
 	}
 
@@ -56,6 +62,11 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 		this._dialogOpened = false;
 	}
 
+	clearSelected() {
+		this._currentSelection = {};
+		this._selectionCount = 0;
+	}
+
 	//todo: workaround until prime for summonAction is ready
 	updated(changedProperties) {
 		super.updated(changedProperties);
@@ -66,23 +77,34 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 
 	render() {
 		return html`
-			<d2l-button primary @click="${this._onAddActivityClick}">Add Activity</d2l-button>
+			<d2l-button primary @click="${this._onAddActivityClick}">${this.localize('addActivity')}</d2l-button>
 
 			<div class="dialog-div">
-				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('browseActivityLibrary')}" @d2l-dialog-close="${() => {}}">
+				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
 					<div class="d2l-add-activity-dialog" aria-live="polite" aria-busy="${!this._candidates}">
 						<div class="d2l-add-activity-dialog-header">
 							<div>
 								<d2l-input-search label="${this.localize('search')}" placeholder="${this.localize('searchPlaceholder')}"" @d2l-input-search-searched="${() => {}}"></d2l-input-search>
 							</div>
-							<div class="d2l-add-activity-dialog-selection-count">selectedNav</div>
+							<div class="d2l-add-activity-dialog-selection-count">${this._selectionCount > 0
+								? html`
+									${this.localize('selected', 'count', this._selectionCount)}
+									<d2l-link
+										tabindex="0"
+										role="button"
+										@click=${this.clearSelected}
+										@keydown="${this._onClearKeydown}">
+											${this.localize('clearSelected')}
+									</d2l-link>
+								`
+								: null }</div>
 						</div>
 						${this._renderCandidates()}
 						<div class="d2l-add-activity-dialog-load-more">
 							loadmore
 						</div>
 					</div>
-					<d2l-button slot="footer" primary dialog-action="add" @click="${() => {}}" ?disabled="${!this._selectionCount}">${this.localize('add')}</d2l-button>
+					<d2l-button slot="footer" primary dialog-action="add" @click="${this._onAddActivityCommit}" ?disabled="${!this._selectionCount}">${this.localize('add')}</d2l-button>
 					<d2l-button slot="footer" dialog-action>${this.localize('cancel')}</d2l-button>
 				</d2l-dialog>
 			</div>
@@ -96,42 +118,65 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 					${this.localize('noActivitiesFound')}
 				</div>`;
 		}
-
-		// todo: getting the activity usage link is a pain in the ass right now
 		return html`
 			<d2l-list grid @d2l-list-selection-change="${this._onSelectionChange}">
-			${repeat(this._candidates, (candidate) => candidate.href, candidate => html`
+			${repeat(this._candidates, (candidate) => candidate.activityUsageHref, candidate => html`
 				<d2l-activity-usage-list-item
-					href="${candidate.links.find(x => x.rel.includes(rels.activityUsage)).href}"
-					.token="${this.token}"
-					selectable
-					?disabled="${candidate.alreadyAdded}"
-					?selected="${candidate.alreadyAdded || this._currentSelection[candidate.properties.actionState]}"
-					key="${candidate.alreadyAdded ? ifDefined(undefined) : candidate.properties.actionState}">
-				</d2l-activity-usage-list-item>
-			`)}
-		</d2l-list>`;
+						href="${candidate.activityUsageHref}"
+						.token="${this.token}"
+						selectable
+						?disabled="${candidate.alreadyAdded}"
+						?selected="${candidate.alreadyAdded || this._currentSelection[candidate.properties.actionState]}"
+						key="${candidate.alreadyAdded ? ifDefined(undefined) : candidate.properties.actionState}"></d2l-activity-usage-list-item>
+				`)}
+			</d2l-list>`;
 	}
 
 	_onAddActivityClick() {
 		this._dialogOpened = true;
 	}
 
+	_onAddActivityCommit() {
+		this.items.push(...this._selectedCandidates);
+		// change the state's list of activities
+		this._state.updateProperties(
+			{ items: {
+				observable: observableTypes.subEntities,
+				rel: rels.item,
+				value: this.items
+			}
+		});
+	}
+
+	_onCloseDialog() {
+		this._dialogOpened = false;
+	}
+
+	_onClearKeydown(e) {
+		switch (e) {
+			case KEYCODES.enter:
+			case KEYCODES.space:
+				this.clearSelected();
+				break;
+		}
+	}
+
 	_onSelectionChange(e) {
 		this._currentSelection[e.detail.key] = e.detail.selected;
-		this._selectionCount = this._selectedActivities.length;
+		this._selectionCount = this._selectedCandidates.length;
 	}
 
 	async _loadCandidates() {
 		const summoned = await this.startAddExisting.summon();
 		this._candidates = summoned.entities;
 		for (let candidate of this._candidates) {
+			candidate.activityUsageHref = candidate.links.find(link => link.rel.includes(rels.activityUsage)).href;
 			candidate.alreadyAdded = this.items.findIndex(x => x.href === candidate.href) >= 0;
 		}
 	}
 
-	get _selectedActivities() {
-		return Object.keys(this._currentSelection).filter((key) => this._currentSelection[key]);
+	get _selectedCandidates() {
+		return this._candidates.filter((candidate) => this._currentSelection[candidate.properties.actionState]);
 	}
 }
 

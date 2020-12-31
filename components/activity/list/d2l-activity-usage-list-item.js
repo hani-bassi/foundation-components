@@ -14,7 +14,7 @@ class ActivityUsageListItem extends HypermediaStateMixin(ListItemMixin(LitElemen
 			illustration: html`${guard([this.href, this.token], () => html`<d2l-activity-image href="${this.href}" .token="${this.token}"></d2l-activity-image>`)}`,
 			content: html`${guard([this.href, this.token], () => html`
 				<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
-				<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>
+				<d2l-activity-type href="${this.href}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>
 			`)}`
 		});
 	}

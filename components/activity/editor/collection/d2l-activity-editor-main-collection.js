@@ -69,14 +69,13 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 					<d2l-list @d2l-list-item-position-change="${this._moveItems}">
 						${repeat(
 							this.items,
-							item => item.href,
+							item => item.href || item.properties.actionState,
 							item => html`
 								<d2l-activity-list-item-accumulator
-									href="${item.href}"
+									href="${item.href || item.activityUsageHref}"
 									.token="${this.token}"
 									draggable
-									key="${item.properties.id}">
-								</d2l-activity-list-item-accumulator>
+									key="${item.properties.id || item.properties.actionState}"></d2l-activity-list-item-accumulator>
 							`
 						)}
 					</d2l-list>
@@ -86,7 +85,7 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 	}
 
 	_moveItems(e) {
-		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
+		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id || item.properties.actionState });
 		this.requestUpdate('items', []);
 	}
 }

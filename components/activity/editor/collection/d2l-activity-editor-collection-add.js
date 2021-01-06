@@ -8,6 +8,7 @@ import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { LocalizeCollectionAdd } from './lang/localize-collection-add.js';
 import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({
@@ -20,19 +21,20 @@ const KEYCODES = Object.freeze({
 	enter: 13
 });
 
-class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
+class ActivityEditorCollectionAdd extends LocalizeCollectionAdd(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			items: { observable: observableTypes.subEntities, rel: rels.item },
-			//startAddExisting: { observable: observableTypes.summonAction, name: 'start-add-existing-activity' },
-			startAddExistingNext: { observable: observableTypes.action, name: 'next', route: [
+			startAddExisting: { observable: observableTypes.summonAction, name: 'start-add-existing-activity' },
+			startAddExistingNext: { observable: observableTypes.summonAction, name: 'next', route: [
 				{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
 			] },
-			// startAddExistingSearch: { observable: observableTypes.summonAction, name: 'search', route: [
-			// 	{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
-			// ] },
+			startAddExistingSearch: { observable: observableTypes.summonAction, name: 'search', route: [
+				{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
+			] },
 			_candidates: { type: Array },
 			_dialogOpened: { type: Boolean },
+			_isLoadingMore: { type: Boolean },
 			_selectionCount: { type: Number }
 		};
 	}
@@ -44,12 +46,11 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		console.log('next', this.startAddExistingNext);
 		const renderCandidates = () => {
 			if (!this._candidates || this._candidates.length <= 0) {
 				return html`
 					<div class="d2l-activity-collection-no-activity d2l-body-standard">
-						${this.localize('noActivitiesFound')}
+						${this.localize('list.noActivitiesFound')}
 					</div>`;
 			}
 			return html`
@@ -59,45 +60,50 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 							href="${candidate.activityUsageHref}"
 							.token="${this.token}"
 							selectable
+							?already-added="${candidate.alreadyAdded}"
 							?disabled="${candidate.alreadyAdded}"
 							?selected="${candidate.alreadyAdded || this._currentSelection[candidate.properties.actionState]}"
 							key="${candidate.alreadyAdded ? ifDefined(undefined) : candidate.properties.actionState}"></d2l-activity-usage-list-item>
 					`)}
 				</d2l-list>`;
 		};
-		const loadMore = this.getNextAction && !this._isLoadingMore
-			? html`<d2l-button @click="${this.loadMore}">${this.localize('loadMore')}</d2l-button>`
-			: this._isLoadingMore
-				? html`<d2l-loading-spinner size="85"></d2l-loading-spinner>`
-				: null;
+		const renderLoadMoreButton = () => {
+			if (this._hasAction('startAddExistingNext') && !this._isLoadingMore) {
+				return html`<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button.loadMore')}</d2l-button>`;
+			} else if (this._isLoadingMore) {
+				return html`<d2l-loading-spinner size="85"></d2l-loading-spinner>`;
+			}
+			return null;
+		};
+
 		return html`
-			<d2l-button primary @click="${this._onAddActivityClick}">${this.localize('addActivity')}</d2l-button>
+			<d2l-button primary @click="${this._onAddActivityClick}">${this.localize('button.addActivity')}</d2l-button>
 
 			<div class="dialog-div">
-				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
+				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('dialog.browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
 					<div class="d2l-add-activity-dialog" aria-live="polite" aria-busy="${!this._candidates}">
 						<div class="d2l-add-activity-dialog-header">
 							<div>
-								<d2l-input-search label="${this.localize('search')}" placeholder="${this.localize('searchPlaceholder')}" @d2l-input-search-searched="${() => {}}"></d2l-input-search>
+								<d2l-input-search label="${this.localize('label.search')}" placeholder="${this.localize('input.searchPlaceholder')}" @d2l-input-search-searched="${() => {}}"></d2l-input-search>
 							</div>
 							<div class="d2l-add-activity-dialog-selection-count">${this._selectionCount > 0 ? html`
-									${this.localize('selected', 'count', this._selectionCount)}
+									${this.localize('dialog.selected', 'count', this._selectionCount)}
 									<d2l-link
 										tabindex="0"
 										role="button"
 										@click=${this.clearSelected}
 										@keydown="${this._onClearKeydown}">
-											${this.localize('clearSelected')}
+											${this.localize('dialog.clearSelected')}
 									</d2l-link>
 								` : null }</div>
 						</div>
 						${renderCandidates()}
 						<div class="d2l-add-activity-dialog-load-more">
-							loadmore
+							${renderLoadMoreButton()}
 						</div>
 					</div>
-					<d2l-button slot="footer" primary dialog-action="add" @click="${this._onAddActivityCommit}" ?disabled="${!this._selectionCount}">${this.localize('add')}</d2l-button>
-					<d2l-button slot="footer" dialog-action>${this.localize('cancel')}</d2l-button>
+					<d2l-button slot="footer" primary dialog-action="add" @click="${this._onAddActivityCommit}" ?disabled="${!this._selectionCount}">${this.localize('button.add')}</d2l-button>
+					<d2l-button slot="footer" dialog-action>${this.localize('button.cancel')}</d2l-button>
 				</d2l-dialog>
 			</div>
 		`;
@@ -116,41 +122,17 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 		this._selectionCount = 0;
 	}
 
-	// todo: move to wherever localization makes sense when serge is added
-	localize(string) {
-		const en = {
-			add: "Add", // When adding activities to the learning path, this will bulk add the selected potential activites to the learning path.
-			addActivity: "Add Activity", // Add a learning task to a list that are similar.
-			alreadyAdded: "Already added", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
-			browseActivityLibrary: "Browse Activity Library", // The title of the dialog box that allows you to browse potential activities to add to the learning path.
-			cancel: "Cancel", // When adding activities to the learning path, this will cancel the currently selected potential activities and close the dialog box.
-			clearSelected: "Clear Selection", // When adding activities (bulk add) to the learning path this allows you to clear the ones currently selected.
-			course: "Course", // A set of material or a plan of study on a particular subject, usually leading learning a new skill.
-			deleteSucceeded: "{activityName} was removed.", //alert popup for delete activitie
-			editLearningPath: "Edit Learning Path", // Title of the page where the page is to edit a list of related learnings. On the page you can edit the title, description and what learning activities are in the list.
-			enterADescription: "Write a description", // Shows where the user should write a description for the learning path.
-			loadMore: "Load More", // When adding activities to the learning path, this is on a button that will load more potential activities that can be added that match the current search.
-			moveActivity: "Moved {activityName} to position {newPosition} out of {totalNumberOfActivities}.", // When a activity is moved to a new position in the learning path this message is annouced.
-			noActivitiesInLearningPath: "There are no activities in this learning path.", // Displayed when the learning path is loaded and contains no activities
-			noActivitiesFound: "There were no activities found using your search term.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
-			numberOfActivities: "{count, plural, =1 {1 Activity} other {{count} Activities}}", // The number of learning tasks currently in the list.
-			removeActivity: "Remove", // An action to remove a learning task from a list of tasks that are related
-			removeActivityAria: "Remove {activityName}", // Remove action described for aria with course name
-			search: "Search", // When adding activities to the learning path, this is where you can search for potential activities to add.
-			searchPlaceholder: "Search...", // Placeholder text for the search input to search the list of potential activities.
-			selected: "{count} selected.", // When adding activities (bulk add) to a learning path this is the number of activities that will be added to the list.
-			untitledLearningPath: "Untitled Learning Path", // Default name of a learning path before the user has changed it.
-		};
-		return en[string];
+	_addExtrasToCandidates(candidates) {
+		for (const candidate of candidates) {
+			candidate.activityUsageHref = candidate.links.find(link => link.rel.includes(rels.activityUsage)).href;
+			candidate.alreadyAdded = this.items.findIndex(x => x.href === candidate.href) >= 0;
+		}
+		return candidates;
 	}
 
 	async _loadCandidates() {
 		const summoned = await this.startAddExisting.summon();
-		this._candidates = summoned.entities;
-		for (const candidate of this._candidates) {
-			candidate.activityUsageHref = candidate.links.find(link => link.rel.includes(rels.activityUsage)).href;
-			candidate.alreadyAdded = this.items.findIndex(x => x.href === candidate.href) >= 0;
-		}
+		this._candidates = this._addExtrasToCandidates(summoned.entities);
 	}
 
 	_onAddActivityClick() {
@@ -181,6 +163,14 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LitElement) {
 
 	_onCloseDialog() {
 		this._dialogOpened = false;
+	}
+
+	async _onLoadMoreClick() {
+		this._isLoadingMore = true;
+		const summoned = await this.startAddExistingNext.summon();
+		const newCandidates = this._addExtrasToCandidates(summoned.entities);
+		this._candidates.push(...newCandidates);
+		this._isLoadingMore = false;
 	}
 
 	_onSelectionChange(e) {

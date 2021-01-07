@@ -208,7 +208,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	_addExtrasToCandidates(candidates) {
 		for (const candidate of candidates) {
 			candidate.activityUsageHref = candidate.links.find(link => link.rel.includes(rels.activityUsage)).href;
-			candidate.alreadyAdded = this.items.findIndex(x => x.href === candidate.activityUsageHref) >= 0;
+			candidate.alreadyAdded = this.items.findIndex(x => x.href === candidate.activityUsageHref || x.activityUsageHref === candidate.activityUsageHref) >= 0;
 		}
 		return candidates;
 	}

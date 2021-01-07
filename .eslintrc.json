@@ -1,4 +1,4 @@
 {
-  "extends": "brightspace/lit-config",
+  "extends": "brightspace/polymer-3-config",
   "ignorePatterns": ["coverage/**/*"]
 }

@@ -14,7 +14,6 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { classMap } from 'lit-html/directives/class-map.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
-import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeCollectionAdd } from './lang/localize-collection-add.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 

@@ -114,6 +114,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._currentSelection = {};
 		this._dialogOpened = false;
 		this._isLoadingCandidates = true;
+		this.items = [];
 	}
 
 	clearSelected() {
@@ -141,7 +142,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 						selectable
 						?disabled="${candidate.alreadyAdded || this._isLoadingCandidates}"
 						?selected="${candidate.alreadyAdded || this._currentSelection[candidate.properties.actionState]}"
-						key="${candidate.alreadyAdded ? ifDefined(undefined) : candidate.properties.actionState}">
+						key="${candidate.properties.actionState}">
 						${guard([candidate.activityUsageHref, candidate.token], () => html`
 						<d2l-activity-image slot="illustration" class="d2l-activity-item-illustration" href="${candidate.activityUsageHref}" .token="${this.token}"></d2l-activity-image>`)}
 						<d2l-list-item-content>
@@ -206,9 +207,11 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_addExtrasToCandidates(candidates) {
+		const activityUsageLink = item => item.links.find(link => link.rel.includes(rels.activityUsage)).href;
 		for (const candidate of candidates) {
-			candidate.activityUsageHref = candidate.links.find(link => link.rel.includes(rels.activityUsage)).href;
-			candidate.alreadyAdded = this.items.findIndex(x => x.href === candidate.activityUsageHref || x.activityUsageHref === candidate.activityUsageHref) >= 0;
+			candidate.activityUsageHref = activityUsageLink(candidate);
+			// it's already been added if the items have an activity usage href that matches
+			candidate.alreadyAdded = this.items && this.items.findIndex(x => activityUsageLink(x) === candidate.activityUsageHref) >= 0;
 		}
 		return candidates;
 	}
@@ -224,8 +227,8 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onAddActivityCommit() {
-		this.items.push(...this._selectedCandidates);
 		this._selectedCandidates.forEach(x => x.alreadyAdded = true);
+		this.items.push(...this._selectedCandidates);
 		this.clearSelected();
 		// change the state's list of activities
 		this._state.updateProperties({
@@ -247,6 +250,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	_onCloseDialog() {
 		this._dialogOpened = false;
+		this.clearSelected();
 	}
 
 	async _onLoadMoreClick() {

@@ -229,10 +229,6 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onAddActivityCommit() {
-		this._selectedCandidates.forEach(x => {
-			x.alreadyAdded = true;
-			//x.items = this.items;
-		});
 		this.items.push(...this._selectedCandidates);
 		this.clearSelected();
 		// change the state's list of activities

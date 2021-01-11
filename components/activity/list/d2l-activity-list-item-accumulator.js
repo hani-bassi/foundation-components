@@ -8,7 +8,9 @@ import { ListItemAccumulatorMixin } from '@brightspace-ui-labs/list-item-accumul
 import { LitElement } from 'lit-element/lit-element.js';
 
 const rels = Object.freeze({
-	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
+	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage',
+	collection: 'collection',
+	item: 'item'
 });
 
 class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElement)) {
@@ -23,7 +25,17 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 			illustration: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-image href="${this._activityHref}" .token="${this.token}"></d2l-activity-image>`)}`,
 			title: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-name href="${this._activityHref}" .token="${this.token}"></d2l-activity-name>`)}`,
 			secondary: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-type href="${this._activityHref}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>`)}`,
+			secondaryAction: html`${guard([this._activityHref, this.token], () => html`<d2l-menu-item text="Delete" @click="${this._onDeleteClick}"></d2l-menu-item>`)}`
 		});
+	}
+
+	_onDeleteClick() {
+		// todo: ideally this should be updating properties in the state directly, but routed updateProperties isn't working
+		const event = new CustomEvent('d2l-activity-item-delete', {
+			detail: { key: this.key },
+			bubbles: true
+		});
+		this.dispatchEvent(event);
 	}
 }
 customElements.define('d2l-activity-list-item-accumulator', ActivityListItemAccumulator);

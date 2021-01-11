@@ -21,7 +21,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 
 	static get properties() {
 		return {
-			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route:
+			items: { observable: observableTypes.subEntities, rel: rels.item, route:
 				[{ observable: observableTypes.link, rel: rels.collection }] },
 			collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
@@ -90,7 +90,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list @d2l-list-item-position-change="${this._moveItems}">${repeat(this.items, item => item.href || item.properties.actionState, item => html`
+					<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-activity-item-delete="${this._deleteActivity}">${repeat(this.items, item => item.href || item.properties.actionState, item => html`
 						<d2l-activity-list-item-accumulator
 							href="${item.href || item.activityUsageHref}"
 							.token="${this.token}"
@@ -101,6 +101,23 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 				</div>
 			</div>
 		`;
+	}
+
+	_deleteActivity(e) {
+		const key = e.detail.key;
+		const removeIndex = this.items.findIndex(x => x.properties.id === key || x.properties.actionState === key);
+		console.log(removeIndex);
+		if (removeIndex < 0) return;
+		this.items.splice(removeIndex, 1);
+		this._state.updateProperties({
+			items: {
+				observable: observableTypes.subEntities,
+				rel: rels.item,
+				value: this.items,
+				route: [{ observable: observableTypes.link, rel: rels.collection }]
+			}
+		});
+		this.requestUpdate('items', []);
 	}
 
 	_moveItems(e) {

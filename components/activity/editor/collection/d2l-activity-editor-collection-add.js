@@ -122,6 +122,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	render() {
+		console.log('add render');
 		const renderCandidates = () => {
 			if (this._candidates && this._candidates.length <= 0) {
 				return html`

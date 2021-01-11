@@ -122,7 +122,6 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	render() {
-		console.log('add render');
 		const renderCandidates = () => {
 			if (this._candidates && this._candidates.length <= 0) {
 				return html`
@@ -204,6 +203,9 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		if (!this._candidates && this._hasAction('startAddExisting')) {
 			this._loadCandidates();
 		}
+		if (changedProperties.has('items') && this._candidates) {
+			this._addExtrasToCandidates(this._candidates);
+		}
 	}
 
 	_addExtrasToCandidates(candidates) {
@@ -227,7 +229,10 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onAddActivityCommit() {
-		this._selectedCandidates.forEach(x => x.alreadyAdded = true);
+		this._selectedCandidates.forEach(x => {
+			x.alreadyAdded = true;
+			//x.items = this.items;
+		});
 		this.items.push(...this._selectedCandidates);
 		this.clearSelected();
 		// change the state's list of activities

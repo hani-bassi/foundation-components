@@ -14,11 +14,7 @@ const rels = Object.freeze({
 class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElement)) {
 	static get properties() {
 		return {
-<<<<<<< HEAD
 			_activityHref: { observable: observableTypes.link, rel: rels.activityUsage }
-=======
-			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
->>>>>>> master
 		};
 	}
 
@@ -27,7 +23,6 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 			illustration: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-image href="${this._activityHref}" .token="${this.token}"></d2l-activity-image>`)}`,
 			title: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-name href="${this._activityHref}" .token="${this.token}"></d2l-activity-name>`)}`,
 			secondary: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-type href="${this._activityHref}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>`)}`,
-<<<<<<< HEAD
 			secondaryAction: html`${guard([this._activityHref, this.token], () => html`<d2l-menu-item text="Remove" @click="${this._onRemoveClick}"></d2l-menu-item>`)}`
 		});
 	}
@@ -39,9 +34,5 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 		});
 		this.dispatchEvent(event);
 	}
-=======
-		});
-	}
->>>>>>> master
 }
 customElements.define('d2l-activity-list-item-accumulator', ActivityListItemAccumulator);

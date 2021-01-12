@@ -1,5 +1,5 @@
 /* eslint quotes: 0 */
-export default  {
+export default {
 	"button-add": "Add", // When adding activities to the learning path, this will bulk add the selected potential activites to the learning path.
 	"button-addActivity": "Add Activity", // Add a learning task to a list that are similar.
 	"button-cancel": "Cancel", // When adding activities to the learning path, this will cancel the currently selected potential activities and close the dialog box.

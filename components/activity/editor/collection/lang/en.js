@@ -1,4 +1,5 @@
 /* eslint quotes: 0 */
+
 export default {
 	"button-add": "Add", // When adding activities to the learning path, this will bulk add the selected potential activites to the learning path.
 	"button-addActivity": "Add Activity", // Add a learning task to a list that are similar.

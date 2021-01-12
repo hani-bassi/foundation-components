@@ -6,10 +6,6 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
-<<<<<<< HEAD
-import { LitElement } from 'lit-element/lit-element.js';
-=======
->>>>>>> master
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
@@ -18,12 +14,8 @@ const rels = Object.freeze({
 class ActivityListItem extends HypermediaStateMixin(ListItemMixin(LitElement)) {
 	static get properties() {
 		return {
-<<<<<<< HEAD
-			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
-=======
 			key: { type: String, observable: observableTypes.link, rel: 'self', reflect: true },
 			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage, prime: true }
->>>>>>> master
 		};
 	}
 

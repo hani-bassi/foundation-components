@@ -27,8 +27,8 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 		});
 	}
 
-	_onRemoveClick(e) {
-		const event = new CustomEvent('d2l-remove-collection-activity-item',{
+	_onRemoveClick() {
+		const event = new CustomEvent('d2l-remove-collection-activity-item', {
 			detail: { key: this.key },
 			bubbles: true
 		});

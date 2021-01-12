@@ -11,24 +11,25 @@ import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engin
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeFoundationEditor } from '../lang/localization.js';
 import { repeat } from 'lit-html/directives/repeat';
+import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
 	item: 'item'
 });
 
-class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
+class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 
 	static get properties() {
 		return {
-			items: { observable: observableTypes.subEntities, rel: rels.item, route:
+			_items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
 				[{ observable: observableTypes.link, rel: rels.collection }] },
-			collectionHref: { observable: observableTypes.link, rel: rels.collection }
+			_collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
 	}
 
 	static get styles() {
-		return [ heading3Styles, bodyCompactStyles, css`
+		return [ super.styles, heading3Styles, bodyCompactStyles, css`
 			:host {
 				background: white;
 				height: 100%;
@@ -72,7 +73,16 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 
 	constructor() {
 		super();
-		this.items = [];
+		this._items = [];
+		this.skeleton = true;
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 
 	render() {
@@ -83,14 +93,14 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-activity-editor-collection-add href="${this.collectionHref}" .token="${this.token}">
+						<d2l-activity-editor-collection-add href="${this._collectionHref}" .token="${this.token}">
 						</d2l-activity-editor-collection-add>
 
-						<div class="d2l-body-compact">${this.localize('text.activities')} ${this.items.length}</div>
+						<div class="d2l-body-compact d2l-skeletize">${this.localize('text.activities')} ${this._items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">${repeat(this.items, item => item.href || item.properties.actionState, item => html`
+					<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">${repeat(this._items, item => item.href || item.properties.actionState, item => html`
 						<d2l-activity-list-item-accumulator
 							href="${item.href || item.activityUsageHref}"
 							.token="${this.token}"
@@ -105,21 +115,21 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 
 	_onRemoveActivity(e) {
 		const key = e.detail.key;
-		const removeIndex = this.items.findIndex(x => x.properties.id === key || x.properties.actionState === key);
+		const removeIndex = this._items.findIndex(x => x.properties.id === key || x.properties.actionState === key);
 		if (removeIndex < 0) return;
-		this.items.splice(removeIndex, 1);
+		this._items.splice(removeIndex, 1);
 		this._state.updateProperties({
-			items: {
+			_items: {
 				observable: observableTypes.subEntities,
 				rel: rels.item,
-				value: this.items,
+				value: this._items,
 				route: [{ observable: observableTypes.link, rel: rels.collection }]
 			}
 		});
 	}
 
 	_moveItems(e) {
-		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id || item.properties.actionState });
+		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
 		this.requestUpdate('items', []);
 	}
 }

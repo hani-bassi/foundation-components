@@ -2,8 +2,8 @@
 // END custom component imports
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/list/list.js';
-import '@brightspace-ui/core/components/list/list-item.js';
-import '../../list/d2l-activity-list-item.js';
+import '../../list/d2l-activity-list-item-accumulator.js';
+import './d2l-activity-editor-collection-add.js';
 
 import { bodyCompactStyles, heading3Styles} from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
@@ -22,7 +22,9 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	static get properties() {
 		return {
-			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}], prime: true }
+			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
+				[{ observable: observableTypes.link, rel: rels.collection }] },
+			collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
 	}
 
@@ -91,14 +93,19 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary ?disabled="${!this._loaded}">${this.localize('action.addActivity')}</d2l-button>
+						<d2l-activity-editor-collection-add href="${this.collectionHref}" .token="${this.token}">
+						</d2l-activity-editor-collection-add>
+
 						<div class="d2l-body-compact d2l-skeletize">${this.localize('text.activities')} ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list @d2l-list-item-position-change="${this._moveItems}">
-						${repeat(this.items, item => item.href, item => html`
-							<d2l-activity-list-item href="${item.href}" .token="${this.token}" draggable key="${item.properties.id}" ?disabled="${!this._loaded}"></d2l-activity-list-item>
+					<d2l-list @d2l-list-item-position-change="${this._moveItems}">${repeat(this.items, item => item.href || item.properties.actionState, item => html`
+						<d2l-activity-list-item-accumulator
+							href="${item.href || item.activityUsageHref}"
+							.token="${this.token}"
+							draggable
+							key="${item.properties.id || item.properties.actionState}"></d2l-activity-list-item-accumulator>
 						`)}
 					</d2l-list>
 				</div>
@@ -107,7 +114,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 	}
 
 	_moveItems(e) {
-		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
+		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id || item.properties.actionState });
 		this.requestUpdate('items', []);
 	}
 }

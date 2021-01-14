@@ -7,11 +7,23 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LocalizeFoundationEditor } from './lang/localization.js';
 
+const rels = Object.freeze({
+	specialization: 'https://api.brightspace.com/rels/specialization'
+});
+
 class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
-			up: { type: Object, observable: observableTypes.link, rel: 'up'}
+			_delete: { observable: observableTypes.action, name: 'delete', route:
+				[{ observable: observableTypes.link, rel: rels.specialization }] },
+			_isNew: {
+				type: Boolean,
+				observable: observableTypes.classes,
+				method: classes => classes.includes('creating'),
+				route: [{observable: observableTypes.link, rel: rels.specialization}]
+			},
+			_up: { type: Object, observable: observableTypes.link, rel: 'up'}
 		};
 	}
 
@@ -36,6 +48,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	}
 
 	render() {
+		console.log('render');
+		console.log(this._state);
+		console.log(this._loaded);
+
 		return html`
 			<div id="save-buttons">
 				<d2l-button primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
@@ -63,13 +79,20 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	}
 
 	_onCancelClick() {
-		this._state.reset();
+		console.log(this._isNew);
+
+		console.log('cancel');
+
+		if (this._isNew) {
+			console.log(this._delete);
+		}
+
 		this._pageRedirect();
 	}
 
 	_pageRedirect() {
-		if (this.up) {
-			window.location.href = this.up;
+		if (this._up) {
+			window.location.href = this._up;
 		}
 	}
 }

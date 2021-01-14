@@ -5,6 +5,7 @@ import '@brightspace-ui/core/components/dialog/dialog.js';
 import '../../common/d2l-activity-visibility.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LocalizeFoundationEditor } from './lang/localization.js';
 
@@ -33,28 +34,43 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 		return [css`
 			:host {
 				align-items: baseline;
+				box-sizing: border-box;
 				display: flex;
 				justify-content: space-between;
+				max-width: 1230px;
 			}
-			d2l-hc-visibility-toggle {
+			.d2l-activity-editor-save-buttons-visibility {
 				display: inline-block;
+				margin-left: 0.6rem;
+				width: 120px;
 			}
-			#target {
-				position: relative;
-				z-index: 1000;
+			.d2l-activity-editor-save-button {
+				margin-right: 0.4rem;
 			}
-			d2l-button {
-				margin-right: 0.75rem;
+			.d2l-activity-editor-save-buttons {
+				display: flex;
+			}
+			@media only screen and (min-width: 650px) {
+				.d2l-activity-editor-save-buttons-visibility {
+					width: 300px;
+				}
 			}
 		`];
 	}
 
+	constructor() {
+		super();
+		this.saveSucceededToast = getUniqueId();
+		this.saveBackdrop = getUniqueId();
+		this.saveButtons = getUniqueId();
+	}
+
 	render() {
 		return html`
-			<div id="save-buttons">
-				<d2l-button primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
-				<d2l-button @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
-				<d2l-hc-visibility-toggle  href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
+			<div class="d2l-activity-editor-save-buttons" id="${this.saveButtons}">
+				<d2l-button class="d2l-activity-editor-save-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
+				<d2l-button class="d2l-activity-editor-save-button" @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
+				<d2l-hc-visibility-toggle class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
 			</div>
 
 			<d2l-alert-toast id="save-succeeded-toast" ?open="${this._toastOpen}" type="success"

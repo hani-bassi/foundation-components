@@ -33,39 +33,40 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 	static get styles() {
 		return [ super.styles, heading3Styles, bodyCompactStyles, bodyStandardStyles, css`
 			:host {
-				background: white;
 				height: 100%;
 			}
 
 			.d2l-activity-collection-body {
-				border-top: 1px solid var(--d2l-color-gypsum);
 				display: block;
-				padding: 0 1.45rem;
-				width: 100%;
+				padding-left: 1.45rem;
+				padding-right: 0.25rem;
 			}
 			.d2l-activity-collection-body-content {
-				max-width: 820px;
-				padding: 0 0.35rem;
+				padding: 0 0.25rem;
 			}
 			.d2l-activity-collection-activities {
 				margin: -0.65rem 0 0 -1.5rem;
-				max-width: 861px;
 				padding: 0 0.05rem;
 			}
 			.d2l-activity-collection-list-actions {
 				align-items: baseline;
 				display: flex;
 				justify-content: space-between;
-				margin: 1.2rem 1.5rem 0.9rem 0;
-				max-width: 820px;
-				position: relative;
+				margin: 1.2rem 0.5rem 0.9rem 0;
 			}
 			.d2l-activity-collection-activity {
 				align-items: center;
 				background: var(--d2l-color-regolith);
+				border-radius: 0.3rem;
+				border: 1px solid var(--d2l-color-gypsum);
+				box-sizing: border-box;
 				display: flex;
 				height: 3rem;
-				padding: 0 1.85rem;
+				margin-left: -0.3rem;
+				margin-right: -0.3rem;
+				padding: 0 2rem;
+				position: relative;
+				max-width: 1242px;
 			}
 			.d2l-activity-collection-activity-header-3 {
 				color: var(--d2l-color-ferrite);
@@ -97,7 +98,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 	render() {
 		return html`
 			<div class="d2l-activity-collection-activity">
-				<h3 class="d2l-heading-3 d2l-activity-collection-activity-header-3">Activities</h3>
+				<h3 class="d2l-heading-3 d2l-activity-collection-activity-header-3">${this.localize('text-activities')}</h3>
 			</div>
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
@@ -105,7 +106,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 						<d2l-activity-editor-collection-add href="${this._collectionHref}" .token="${this.token}">
 						</d2l-activity-editor-collection-add>
 
-						<div class="d2l-body-compact d2l-skeletize">${this.localize('text-activities')} ${this._items.length}</div>
+						<div class="d2l-body-compact d2l-skeletize">${this.localize('numberOfActivities', 'count', this._items.length)}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">

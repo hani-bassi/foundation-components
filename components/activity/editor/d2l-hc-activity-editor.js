@@ -33,9 +33,10 @@ class ActivityEditor extends LitElement {
 					"footer";
 				grid-template-columns: auto;
 				grid-template-rows: auto 1fr auto;
-				height: calc(100vh - 62px);
+				height: calc(100vh - 134px);
 				margin: auto;
 				max-width: 1230px;
+				overflow-y: scroll;
 			}
 
 			[class^="d2l-activity-editor-main"] {
@@ -67,7 +68,26 @@ class ActivityEditor extends LitElement {
 				padding: 0.55rem 1.7rem 0.6rem 1.7rem;
 			}
 			.d2l-actiity-editor-template-footer-space {
-				height: 70px;
+				height: 0px;
+			}
+
+			.d2l-template-scroll::-webkit-scrollbar {
+				width: 8px;
+			}
+			.d2l-template-scroll::-webkit-scrollbar-track {
+				background: rgba(255, 255, 255, 0.4);
+			}
+			.d2l-template-scroll::-webkit-scrollbar-thumb {
+				background: var(--d2l-color-galena);
+				border-radius: 4px;
+			}
+			.d2l-template-scroll::-webkit-scrollbar-thumb:hover {
+				background: var(--d2l-color-tungsten);
+			}
+			/* For Firefox */
+			.d2l-template-scroll {
+				scrollbar-color: var(--d2l-color-galena) rgba(255, 255, 255, 0.4);
+				scrollbar-width: thin;
 			}
 		`];
 	}
@@ -93,7 +113,7 @@ class ActivityEditor extends LitElement {
 
 	_renderDefault() {
 		return html`
-			<div class="d2l-activity-editor-template-default">
+			<div class="d2l-activity-editor-template-default d2l-template-scroll">
 				${this.noHeader ? nothing : html`
 					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}

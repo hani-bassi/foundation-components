@@ -1,6 +1,6 @@
 import '../../../components/activity/description/d2l-activity-description-editor.js';
 import { assert, aTimeout, elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import { learningPathExisting, learningPathNew, learningPathUpdated } from '../../data.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../data.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { mockLink } from '../../fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
@@ -28,7 +28,7 @@ async function _delayAndAwaitForElement(element, delayMs) {
 
 // Handle updating the component textarea with a new value and await the update
 async function fireTextareaInputEvent(element) {
-	const textarea = element.shadowRoot.querySelector('label textarea');
+	const textarea = element.shadowRoot.querySelector('textarea');
 	textarea.value = updatedDescriptionText;
 	const inputEvent = new Event('input');
 	textarea.dispatchEvent(inputEvent);
@@ -57,20 +57,20 @@ describe('d2l-activity-description-editor', () => {
 			mockLink.resetHistory();
 		});
 
-		it.skip('should initialize using defined path and expected values', async() => {
+		it('should initialize using defined path and expected values', async() => {
 			const element = await _createComponentAndWait('/learning-path/new');
 
 			// paths should be followed
 			assert.isTrue(mockLink.called('path:/learning-path/new'), '/learing-path/new was not called');
 			assert.isTrue(mockLink.called('path:/learning-path/new/object'), '/learing-path/new/object was not called');
 
-			const textarea = element.shadowRoot.querySelector('label textarea');
+			const textarea = element.shadowRoot.querySelector('textarea');
 
 			// classes are set
 			expect(element.shadowRoot.querySelector('label'))
-				.to.have.class('d2l-activity-description-editor', 'Label should have d2l-activity-description-editor class');
-			expect(element.shadowRoot.querySelector('label span'))
-				.to.have.class('d2l-input-label', 'span should have d2l-input-label class');
+				.to.have.class('d2l-input-label', 'Label should have d2l-input-label class');
+			expect(element.shadowRoot.querySelector('label span').className)
+				.to.be.equal('', 'span should have no class');
 			expect(textarea)
 				.to.have.class('d2l-input', 'textarea should have d2l-input class');
 
@@ -81,7 +81,7 @@ describe('d2l-activity-description-editor', () => {
 			assert.equal(element.description, learningPathNew.properties.description, 'description property should match');
 		});
 
-		describe.skip('path:/learning-path/existing', () => {
+		describe('path:/learning-path/existing', () => {
 			let element;
 			beforeEach(async() => {
 				clearStore();
@@ -94,7 +94,7 @@ describe('d2l-activity-description-editor', () => {
 				assert.isTrue(mockLink.called('path:/learning-path/existing'), '/learing-path/exiting was not called');
 				assert.isTrue(mockLink.called('path:/learning-path/existing/object'), '/learning-path/existing/object was not called');
 
-				assert.equal(element.shadowRoot.querySelector('label textarea').value,
+				assert.equal(element.shadowRoot.querySelector('textarea').value,
 					learningPathExisting.properties.description, 'textarea value does not match');
 
 				assert.equal(element.description, learningPathExisting.properties.description, 'description property should match');
@@ -120,8 +120,7 @@ describe('d2l-activity-description-editor', () => {
 				assert.isTrue(mockLink.called('path:/description/update'), 'Updated path was not called');
 				assert.equal(element.description, updatedDescriptionText, 'description should be updated after a push');
 
-				let textarea = element.shadowRoot.querySelector('label textarea');
-				textarea = element.shadowRoot.querySelector('label textarea');
+				const textarea = element.shadowRoot.querySelector('textarea');
 				assert.equal(textarea.value, updatedDescriptionText, 'textarea value should be updated');
 			});
 
@@ -137,8 +136,23 @@ describe('d2l-activity-description-editor', () => {
 				assert.equal(element.description, learningPathExisting.properties.description, 'description should be reset');
 				assert.isTrue(spy.render.called);
 
-				const textarea2 = element.shadowRoot.querySelector('label textarea');
+				const textarea2 = element.shadowRoot.querySelector('textarea');
 				assert.equal(textarea2.value, learningPathExisting.properties.description, 'textarea value should be reset');
+			});
+
+		});
+		describe('path:/learning-path/missing-action', () => {
+			let element;
+			beforeEach(async() => {
+				clearStore();
+				element = await _createComponentAndWait('/learning-path/missing-action');
+				assert.equal(element.description, learningPathMissingAction.properties.description, 'description should match response');
+			});
+
+			it('description should not be updated because action is missing', async() => {
+				await fireTextareaInputEvent(element);
+
+				assert.equal(element.description, learningPathMissingAction.properties.description, 'description property should match');
 			});
 		});
 	});

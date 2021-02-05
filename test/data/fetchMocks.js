@@ -1,4 +1,4 @@
-import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from './data.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from './learningPath.js';
 import fetchMock from 'fetch-mock/esm/client.js';
 
 /*

@@ -1,5 +1,6 @@
 import '../../../components/activity/type/d2l-activity-type.js';
 import { assert, fixture, html, waitUntil } from '@open-wc/testing';
+import { learningPathExisting, learningPathNew } from '../../data.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { mockLink } from '../../fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
@@ -30,25 +31,20 @@ describe('d2l-activity-type', () => {
 	});
 
 	it('should construct a component and check fields', async() => {
-		const element = await _createType('/learning-path/new');
+		const element = await _createType('/learning-path/new/object');
 
-		assert.isTrue(mockLink.called('path:/learning-path/new'), '/learing-path/new was not called');
+		assert.isTrue(mockLink.called('path:/learning-path/new/object'), '/learing-path/new was not called');
 
 		assert.isTrue(element._loaded, 'should be loaded after creation');
-		assert.deepEqual(element.classes, [], 'should have no classes when created');
-		console.log(element);
-		console.log(element.classes);
+		assert.deepEqual(element.classes, learningPathNew.class, 'should have no classes when created');
 	});
 
 	it('should construct a component and check fields', async() => {
-		const element = await _createType('/learning-path/existing');
+		const element = await _createType('/learning-path/existing/object');
 
-		assert.isTrue(mockLink.called('path:/learning-path/existing'), '/learning-path/existing was not called');
+		assert.isTrue(mockLink.called('path:/learning-path/existing/object'), '/learning-path/existing was not called');
 
 		assert.isTrue(element._loaded, 'should be loaded after creation');
-		assert.deepEqual(element.classes, [], 'should have no classes when created');
-		console.log(element);
-		console.log(element.classes);
-
+		assert.deepEqual(element.classes, learningPathExisting.class, 'should have no classes when created');
 	});
 });

@@ -6,11 +6,11 @@ import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodyCompactStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import { LocalizeDiscoverEntitlement } from './lang/localization.js';
+//import { LocalizeDiscoverEntitlement } from './lang/localization.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
-class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMixin(LitElement))) {
+class RulePicker extends HypermediaStateMixin((RtlMixin(LitElement))) {
 
 	static get properties() {
 		return {
@@ -71,7 +71,7 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 		super.updated(changedProperties);
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addDefaultCondition();
-		};
+		}
 	}
 
 	render() {
@@ -143,37 +143,37 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 	_renderPickerConditions() {
 		return html`
 		${this.conditions.map(condition => html`
-		<div class="d2l-picker-rule-container">
-			<select class="d2l-input-select picker-rule-select"
-				.condition="${condition}"
-				value="${condition.properties.type}"
-				@blur="${this._onConditionSelectChange}">
-				${this.conditionTypes?.map(conditionType => html`
-					<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
-				`)}
-			</select>
-			<div class="d2l-picker-rule-separator d2l-body-compact">
-				${this.localize('conditionIs')}
+			<div class="d2l-picker-rule-container">
+				<select class="d2l-input-select picker-rule-select"
+					.condition="${condition}"
+					value="${condition.properties.type}"
+					@blur="${this._onConditionSelectChange}">
+					${this.conditionTypes.map(conditionType => html`
+						<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
+					`)}
+				</select>
+				<div class="d2l-picker-rule-separator d2l-body-compact">
+					${this.localize('conditionIs')}
+				</div>
+				<d2l-input-text
+					class="d2l-picker-rule-input"
+					placeholder="Enter a condition value"
+					value="${condition.properties.value}"
+					.condition="${condition}"
+					@blur="${this._onConditionValueChange}">
+				</d2l-input-text>
+				<d2l-button-icon
+					id="delete-condition-button"
+					?hidden=${this._isOnlyCondition()}
+					text="${this.localize('removeCondition', 'conditionType', condition.properties.type)}"
+					icon="tier1:close-default"
+					.condition="${condition}"
+					@click="${this._removeCondition}"></d2l-button-icon>
 			</div>
-			<d2l-input-text
-				class="d2l-picker-rule-input"
-				placeholder="Enter a condition value"
-				value="${condition.properties.value}"
-				.condition="${condition}"
-				@blur="${this._onConditionValueChange}">
-			</d2l-input-text>
-			<d2l-button-icon
-				id="delete-condition-button"
-				?hidden=${this._isOnlyCondition()}
-				text="${this.localize('removeCondition', 'conditionType', condition.properties.type)}"
-				icon="tier1:close-default"
-				.condition="${condition}"
-				@click="${this._removeCondition}"></d2l-button-icon>
-		</div>
-		<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isLastCondition(condition)}">
-			${this.localize('and')}
-			<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
-		</div>
+			<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isLastCondition(condition)}">
+				${this.localize('and')}
+				<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
+			</div>
 		`)}`;
 	}
 }

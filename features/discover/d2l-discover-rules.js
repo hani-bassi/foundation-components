@@ -1,5 +1,5 @@
 import '@brightspace-ui-labs/checkbox-drawer/checkbox-drawer.js';
-import '@brightspace/discover-components/components/rule-picker-dialog.js';
+import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
@@ -11,7 +11,7 @@ const rels = Object.freeze({
 	rule: 'rule',
 	entitlementRules: 'entitlement-rules',
 	conditionType: 'condition-type',
-	conditionTypes: 'available-condition-types'
+	newRule: 'new-rule'
 });
 
 class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(HypermediaStateMixin(LitElement))) {
@@ -22,9 +22,13 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 			// rules: { observable: observableTypes.subEntities, rel: rels.rule, route: [
 			// 	{ observable: observableTypes.link, rel: rels.entitlementRules }
 			// ] },
-			conditionTypes: { observable: observableTypes.subEntities, rel: rels.conditionType, route: [
-				{ observable: observableTypes.link, rel: rels.conditionTypes }
-			]}
+			_dialogOpened: { type: Boolean },
+			_newRuleHref: { observable: observableTypes.link, rel: rels.newRule, route: [
+				{ observable: observableTypes.link, rel: rels.entitlementRules }
+			] },
+			// _addNewRule: { observable: observableTypes.action, name: "add-new-rule", route: [
+			// 	{ observable: observableTypes.link, rel: rels.entitlementRules }
+			// ]}
 		};
 	}
 
@@ -55,7 +59,6 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 	}
 
 	render() {
-		const typeList = this.conditionTypes?.map(conditionType => conditionType.properties.type);
 		return html`
 			<h4 class="d2l-body-small d2l-skeletize"><strong>${this.localize('text-title')}</strong></h4>
 			<d2l-labs-checkbox-drawer
@@ -70,20 +73,28 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 				<!-- rules cards -->
 			</div>
 			` : null}
-			${typeList ? html`
-			<rule-picker-dialog
-				@rule-conditions-changed="${this._onRuleConditionsChanged}"
-				.conditionTypes="${typeList}"
-				default="${typeList[0]}"
-			></rule-picker-dialog>
-			` : null }
+			<d2l-button-subtle
+				@click=${this._onButtonClick}
+				id="add-enrollment-rule-button"
+				text="${this.localize('text-add-enrollment-rule')}"
+				icon="tier1:lock-locked"></d2l-button-subtle>
+			<d2l-discover-rule-picker-dialog
+				@d2l-dialog-close="${this._onDialogClose}"
+				href="${this._newRuleHref}"
+				token="${this.token}"
+				?opened="${this._dialogOpened}"
+			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
 		`;
 	}
 
-	_onRuleConditionsChanged() {
-		//todo: change the state from within the component instead of catching this event
+	_onButtonClick() {
+		this._dialogOpened = true;
+	}
+
+	_onDialogClose() {
+		this._dialogOpened = false;
 	}
 
 }
-customElements.define('d2l-discover-entitlement-rules', EntitlementRules);
+customElements.define('d2l-discover-rules', EntitlementRules);

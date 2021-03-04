@@ -31,6 +31,12 @@ class ActivityCodeEditor extends LocalizeFoundationCode(HypermediaStateMixin(Lit
 		` ];
 	}
 
+	static get localizeConfig() {
+		return {
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+		};
+	}
+
 	render() {
 		return html`
 			<d2l-input-text

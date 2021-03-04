@@ -41,7 +41,7 @@ class ActivityEditorSecondaryCard extends LitElement {
 				grid-row: content;
 			}
 			hr.d2l-split {
-				border-bottom: solid 1px redvar(--d2l-color-corundum)
+				border-bottom: solid 1px var(--d2l-color-corundum)
 			}
 		`];
 	}

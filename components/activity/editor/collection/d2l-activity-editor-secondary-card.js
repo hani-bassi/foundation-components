@@ -40,6 +40,9 @@ class ActivityEditorSecondaryCard extends LitElement {
 			::slotted([slot=content]) {
 				grid-row: content;
 			}
+			hr.split {
+				border-bottom: solid 1px var(--d2l-color-corundum)
+			}
 		`];
 	}
 
@@ -53,7 +56,7 @@ class ActivityEditorSecondaryCard extends LitElement {
 		<d2l-labs-accordion-collapse flex>
 			<span slot="header">
 				<h3>${this.titleText}</h3>
-				<hr>
+				<hr class="split">
 			</span>
 			<span class="content">${this.bodyText}</span>
 			<slot name="card-content"></slot>

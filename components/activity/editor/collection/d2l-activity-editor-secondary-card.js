@@ -40,23 +40,21 @@ class ActivityEditorSecondaryCard extends LitElement {
 			::slotted([slot=content]) {
 				grid-row: content;
 			}
-			hr.split {
-				border-bottom: solid 1px var(--d2l-color-corundum)
+			hr.d2l-split {
+				border-bottom: solid 1px redvar(--d2l-color-corundum)
 			}
 		`];
 	}
 
 	render() {
 		return this.collapsable ? this._renderCollapsable() : this._renderDefault();
-
 	}
 
 	_renderCollapsable() {
 		return html`
-		<d2l-labs-accordion-collapse flex>
+		<d2l-labs-accordion-collapse flex header-border>
 			<span slot="header">
 				<h3>${this.titleText}</h3>
-				<hr class="split">
 			</span>
 			<span class="content">${this.bodyText}</span>
 			<slot name="card-content"></slot>
@@ -68,7 +66,7 @@ class ActivityEditorSecondaryCard extends LitElement {
 		return html`
 			<span slot="header">
 				<h3>${this.titleText}</h3>
-				<hr>
+				<hr class="d2l-split">
 			</span>
 			<span class="content">${this.bodyText}</span>
 			<slot name="card-content"></slot>

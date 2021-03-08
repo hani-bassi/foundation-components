@@ -41,9 +41,6 @@ class ActivityEditor extends LitElement {
 				max-width: 1230px;
 				overflow-y: scroll;
 			}
-			[class^="d2l-activity-editor-main"] {
-				display: block;
-			}
 			[class^="d2l-activity-editor-sidebar"] {
 				display: block;
 				padding: 10px;
@@ -130,7 +127,7 @@ class ActivityEditor extends LitElement {
 				${this.noHeader ? nothing : html`
 					<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}
-				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-main"></d2l-activity-editor-main>
+				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
 				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-sidebar"></d2l-activity-editor-sidebar>
 				<d2l-activity-editor-footer href="${this.href}" .token="${this.token}" slot="footer"></d2l-activity-editor-footer>
 			</d2l-template-primary-secondary>

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import '../d2l-activity-description-editor.js';
 import { addToMock, mockLink } from '../../../../test/data/fetchMock.js';
-import { assert, elementUpdated, expect, html } from '@open-wc/testing';
+import { assert, elementUpdated, html } from '@open-wc/testing';
 import { createComponentAndWait, delayAndAwaitForElement, fireEventAndWait } from '../../../../test/test-util.js';
 import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../../../test/data/learningPath.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';

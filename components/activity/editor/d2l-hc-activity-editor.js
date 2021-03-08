@@ -5,7 +5,6 @@ import './d2l-activity-editor-sidebar.js';
 import './d2l-activity-editor-main.js';
 import '../dialog/d2l-activity-dialog-load-failed.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { classMap } from 'lit-html/directives/class-map.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { nothing } from 'lit-html';
 

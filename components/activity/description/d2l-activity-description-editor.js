@@ -57,7 +57,6 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 	}
 
 	render() {
-		console.log(this.description);
 		return html`
 			<d2l-input-textarea
 				@input="${this._onInputDescription}"
